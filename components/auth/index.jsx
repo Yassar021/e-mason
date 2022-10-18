@@ -37,22 +37,24 @@ const AuthLogin = ()  => {
                     </InputGroup>
                 </VStack>
 
-                <Button
-                    mt='46px'
-                    size='md'
-                    height='60px'
-                    width={'100%'}
-                    color={'#fff'}
-                    bgColor='#3E38F5'
-                    borderRadius={'6px'}
-                    _hover={{ bg: '#3E38F5' }}
-                    _active={{
-                      bg: '#3E38F5',
-                      transform: 'scale(0.98)',
-                    }}
-                    >
-                    Login
-                </Button>
+                <Link href="/HomePage">
+                    <Button
+                        mt='46px'
+                        size='md'
+                        height='60px'
+                        width={'100%'}
+                        color={'#fff'}
+                        bgColor='#3E38F5'
+                        borderRadius={'6px'}
+                        _hover={{ bg: '#3E38F5' }}
+                        _active={{
+                        bg: '#3E38F5',
+                        transform: 'scale(0.98)',
+                        }}
+                        >
+                        Login
+                    </Button>
+                </Link>
 
                 <Center>
                     <Stack direction={{base:'column',md:'row'}} spacing={'10px'} mt='24px'>

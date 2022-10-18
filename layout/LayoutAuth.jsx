@@ -8,7 +8,7 @@ const LayoutAuth = ({pageTitle, children}) => {
             <title>E-Mason App | {pageTitle}</title>
         </Head>
 
-        <Box height={'100vh'} bgColor={'#E9E8F9'}>
+        <Box height={'140vh'} bgColor={'#E9E8F9'}>
             <Box height={'113px'} bgColor='#fff' py='26px'>
                 <Center>
                     <Text fontSize={'40px'} fontWeight='700' fontFamily={'Poppins'} color='#3E38F5'>E-MASON</Text>
