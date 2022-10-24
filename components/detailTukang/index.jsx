@@ -5,7 +5,7 @@ import LayoutHomePage from "../../layout/LayoutHomePage"
 const DetailTukang = () => {
     return ( 
         <LayoutHomePage pageTitle={'Detail Tukang'}>
-            <Flex direction={{md:'column',lg:'row',xl:'row'}} gap={{lg:'20px',xl:'60px'}}>
+            <Flex direction={{base:'column',md:'column',lg:'row',xl:'row'}} gap={{lg:'20px',xl:'60px'}}>
                 <Image borderRadius={'8px'} border='2px solid #3E38F5' src="/avatar.jpg" width={'auto'} height='253px' alt='Profile Tukang' />
                 <Box borderRadius={'8px'} bgColor='#fff' width='auto' height='253px' px='24px' py='12px'>
                     <TableContainer>
@@ -106,7 +106,7 @@ const DetailTukang = () => {
             <Text mt='60px' fontSize={'24px'} fontWeight='600'>
                 Bangunan yang telah dikerjakan
             </Text>
-            <SimpleGrid columns={4} spacing='20px' mt='24px'>
+            <SimpleGrid columns={{base:1,md:2, lg:4}} spacing='20px' mt='24px'>
                 <Image borderRadius={'8px'} width={'auto'} height='274px' src='/bangunan1.jpg' alt='Portfolio Bangunan' />
                 <Image borderRadius={'8px'} width={'auto'} height='274px' src='/bangunan2.jpg' alt='Portfolio Bangunan' />
                 <Image borderRadius={'8px'} width={'auto'} height='274px' src='/bangunan3.jpg' alt='Portfolio Bangunan' />
