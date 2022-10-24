@@ -19,7 +19,7 @@ const CardTukang = ({name, star, status, image}) => {
                     <Text>| {status}</Text>
                 </HStack>
             </Flex>
-            <Link href="DetailTukangPage">
+            <Link href="DetailTukangPage" style={{textDecoration: 'none'}}>
                 <Button
                         mt='18px'
                         size='md'
