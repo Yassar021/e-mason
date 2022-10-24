@@ -1,11 +1,11 @@
-import { Box, Button, Flex, HStack, Stack, Text } from "@chakra-ui/react"
+import { Box, Button, Flex, HStack, Link, Stack, Text } from "@chakra-ui/react"
 import Image from "next/image"
 
 const CardTukang = ({name, star, status, image}) => {
     return (
        <Box w='300px' h='300px' py='24px' px='40px' borderRadius={'8px'} bgColor='#fff'>
             <Flex direction="column" mx='auto' textAlign={'center'} alignItems='center'>
-                <Image borderRadius={'50%'} width='110px' height={'110px'} src={image} alt='Profile Tukang'  />
+                <Image borderRadius={'50% !impotant'} width='110px' height={'110px'} src={image} alt='Profile Tukang'  />
                 <Text my='5px' fontSize={'18px'} fontWeight='500' fontFamily={'Poppins'}>{name}</Text>
                 <HStack spacing='8px'>
                     <HStack spacing='4px'>
@@ -19,7 +19,8 @@ const CardTukang = ({name, star, status, image}) => {
                     <Text>| {status}</Text>
                 </HStack>
             </Flex>
-                    <Button
+            <Link href="DetailTukangPage">
+                <Button
                         mt='18px'
                         size='md'
                         height='60px'
@@ -35,6 +36,7 @@ const CardTukang = ({name, star, status, image}) => {
                         >
                         Detail
                     </Button>
+            </Link>
        </Box> 
     )
 }
