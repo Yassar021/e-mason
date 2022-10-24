@@ -36,7 +36,18 @@ const NegosiasiUser = () => {
                                             <Td>-</Td>
                                             <Td>December, 03 Agustus 2022</Td>
                                             <Td>
-                                                <Button bgColor={'#3E38F5'} color='#fff' onClick={onOpen}>Info Pemesanan</Button>
+                                                <Button  
+                                                    bgColor={'#3E38F5'} 
+                                                    color='#fff' 
+                                                    onClick={onOpen}
+                                                    _hover={{ bg: '#3E38F5' }}
+                                                    _active={{
+                                                      bg: '#3E38F5',
+                                                      transform: 'scale(0.98)',
+                                                    }}
+                                                    >
+                                                        Info Pemesanan
+                                                </Button>
                                                 <Modal onClose={onClose} isOpen={isOpen} isCentered>
                                                 <ModalOverlay />
                                                 <ModalContent>
@@ -104,7 +115,18 @@ const NegosiasiUser = () => {
                                             <Td>-</Td>
                                             <Td>December, 03 Agustus 2022</Td>
                                             <Td>
-                                                <Button bgColor={'#3E38F5'} color='#fff' onClick={onOpen}>Info Pemesanan</Button>
+                                                <Button 
+                                                    bgColor={'#3E38F5'} 
+                                                    color='#fff' 
+                                                    onClick={onOpen}
+                                                    _hover={{ bg: '#3E38F5' }}
+                                                    _active={{
+                                                      bg: '#3E38F5',
+                                                      transform: 'scale(0.98)',
+                                                    }}
+                                                    >
+                                                        Info Pemesanan
+                                                    </Button>
                                                 <Modal onClose={onClose} isOpen={isOpen} isCentered>
                                                 <ModalOverlay />
                                                 <ModalContent>
@@ -172,7 +194,18 @@ const NegosiasiUser = () => {
                                             <Td>-</Td>
                                             <Td>December, 03 Agustus 2022</Td>
                                             <Td>
-                                                <Button bgColor={'#3E38F5'} color='#fff' onClick={onOpen}>Info Pemesanan</Button>
+                                                <Button 
+                                                    bgColor={'#3E38F5'} 
+                                                    color='#fff' 
+                                                    onClick={onOpen}
+                                                    _hover={{ bg: '#3E38F5' }}
+                                                    _active={{
+                                                      bg: '#3E38F5',
+                                                      transform: 'scale(0.98)',
+                                                    }}
+                                                    >
+                                                        Info Pemesanan
+                                                    </Button>
                                                 <Modal onClose={onClose} isOpen={isOpen} isCentered>
                                                 <ModalOverlay />
                                                 <ModalContent>
