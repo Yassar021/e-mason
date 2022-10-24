@@ -1,4 +1,4 @@
-import { Box, Flex, HStack, Image, Text } from "@chakra-ui/react"
+import { Box, Flex, HStack, Image, Link, Text, textDecoration } from "@chakra-ui/react"
 import Head from "next/head"
 
 const LayoutHomePage = ({pageTitle, children}) => {
@@ -14,7 +14,9 @@ const LayoutHomePage = ({pageTitle, children}) => {
                     <Text fontSize={{base:'22px',md:'40px'}} fontWeight='700' fontFamily={'Poppins'} color='#3E38F5'>E-Mason</Text> 
 
                     <HStack spacing={'24px'}>
-                        <Text fontSize={{base:'18px',md:'24px'}} fontWeight='700' fontFamily={'Poppins'}>Negosiasi</Text>
+                        <Link style={{textDecoration:'none'}} href='/negosiasiUserPage'>
+                            <Text fontSize={{base:'18px',md:'24px'}} fontWeight='700' fontFamily={'Poppins'}>Negosiasi</Text>
+                        </Link>
                         <Image borderRadius={'50%'} alt='Profile' w='50px' h='50px' src='/pp.jpeg' />
                     </HStack>   
                 </Flex>               

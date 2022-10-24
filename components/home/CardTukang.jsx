@@ -5,7 +5,7 @@ const CardTukang = ({name, star, status, image}) => {
     return (
        <Box w='300px' h='300px' py='24px' px='40px' borderRadius={'8px'} bgColor='#fff'>
             <Flex direction="column" mx='auto' textAlign={'center'} alignItems='center'>
-                <Image borderRadius={'50% !impotant'} width='110px' height={'110px'} src={image} alt='Profile Tukang'  />
+                <Image style={{borderRadius:'50%'}} width='110px' height={'110px'} src={image} alt='Profile Tukang'  />
                 <Text my='5px' fontSize={'18px'} fontWeight='500' fontFamily={'Poppins'}>{name}</Text>
                 <HStack spacing='8px'>
                     <HStack spacing='4px'>
