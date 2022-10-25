@@ -4,12 +4,12 @@ import Link from "next/link"
 
 const Navbar = () => {
     return(
-            <Box height={'113px'} bgColor='#fff' py='26px' px={{base:'20px',md:'90px'}}>
+            <Box height={'113px'} bgColor='#fff' py='26px' px={{base:'12px',md:'90px'}}>
                 <Flex direction={'row'} justifyContent='space-between' py='auto'>
                     <Link style={{textDecoration:'none'}} href='/HomePage'>
                         <Text fontSize={{base:'22px',md:'40px'}} fontWeight='700' fontFamily={'Poppins'} color='#3E38F5'>E-Mason</Text> 
                     </Link>
-                    <Flex dir='row' gap='24px' my='auto'>
+                    <Flex dir='row' gap={{base:'0px',md:'24px'}} my='auto'>
                         <Link style={{textDecoration:'none'}} href='/negosiasiUserPage'>
                             <Text fontSize={{base:'18px',md:'24px'}} fontWeight='700' fontFamily={'Poppins'}>Negosiasi</Text>
                         </Link>

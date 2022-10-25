@@ -1,16 +1,16 @@
-import { Box, Button, Center, Flex, Input, InputGroup, InputRightElement, Link, Stack, Text, VStack } from "@chakra-ui/react"
+import { Box, Button, Center, Flex, Input, InputGroup, InputRightElement, Link, Stack, Text, VStack } from "@chakra-ui/react";
 import { useState } from "react";
-import LayoutAuth from "../../layout/LayoutAuth"
+import LayoutAuth from "../../layout/LayoutAuth";
 
-const RegisterPage = () => {
+const RegisterTukang = () => {
     const [show, setShow] = useState(false);
     const handleClick = () => setShow(!show);
 
-    return (
-        <LayoutAuth pageTitle={'Register Pengguna'}>
+    return(
+        <LayoutAuth pageTitle={'Register Tukang'}>
             <Box>
                 <Center>
-                    <Text fontFamily={'Poppins'} fontSize='40px' fontWeight={'500'}>Registrasi Pengguna</Text>
+                    <Text fontFamily={'Poppins'} fontSize='40px' fontWeight={'500'}>Registrasi Tukang</Text>
                 </Center>
 
                 <Flex direction={'column'} gap='24px'>
@@ -67,7 +67,7 @@ const RegisterPage = () => {
                     </VStack>
 
                     <VStack spacing={'10px'} alignItems='baseline'>
-                        <Text fontSize={'20px'} fontWeight='500' fontFamily={'Poppins'}>alamat</Text>
+                        <Text fontSize={'20px'} fontWeight='500' fontFamily={'Poppins'}>Alamat</Text>
                         <Input placeholder='masukkan alamat anda' size='lg' />
                     </VStack>
 
@@ -102,4 +102,4 @@ const RegisterPage = () => {
     )
 }
 
-export default RegisterPage
+export default RegisterTukang

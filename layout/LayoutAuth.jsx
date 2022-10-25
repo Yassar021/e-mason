@@ -17,7 +17,6 @@ const LayoutAuth = ({pageTitle, children}) => {
             <Box my='84px' borderRadius={'20px'} pt='40px' pb='60px' px={{base:'10px',md:'20px',lg:'120px'}} mx={{base:'10px',md:'40px',lg:'120px'}} bgColor="#fff">
                 {children}
             </Box>
-
         </Box>
         </>
         

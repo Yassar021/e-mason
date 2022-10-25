@@ -37,7 +37,7 @@ const AuthLogin = ()  => {
                     </InputGroup>
                 </VStack>
 
-                <Link href="/HomePage">
+                <Link href="/HomePage" style={{textDecoration:'none'}}>
                     <Button
                         mt='46px'
                         size='md'
@@ -59,10 +59,10 @@ const AuthLogin = ()  => {
                 <Center>
                     <Stack direction={{base:'column',md:'row'}} spacing={'10px'} mt='24px'>
                         <Text fontSize={'18px'} fontWeight='500' fontFamily={'Poppins'}>Belum Punya Akun ?</Text>
-                        <Link href='/RegisterPage'>
+                        <Link href='/RegisterPage' style={{textDecoration:'none'}}>
                             <Text fontSize={'18px'} fontWeight='500' fontFamily={'Poppins'} color='#3E38F5'>Daftar Tukang</Text>
                         </Link>
-                        <Link href='/RegisterPage'>
+                        <Link href='/RegisterTukang' style={{textDecoration:'none'}}>
                             <Text fontSize={'18px'} fontWeight='500' fontFamily={'Poppins'} color='#3E38F5'>Daftar Pengguna</Text>
                         </Link>
                     </Stack>
