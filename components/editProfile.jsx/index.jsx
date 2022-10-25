@@ -5,7 +5,7 @@ import LayoutDashboardUser from "../../layout/LayoutDashboardUser"
 const EditProfile = () => {
     return(
         <LayoutDashboardUser pageTitle={'Edit Profile'}>
-            <Box>
+            <Box  justifyContent={{md:'center', lg:'right'}}>
                 <Text fontSize={'24px'} fontWeight='600'>Ubah Profile Pengguna</Text>
                 <Center>
                     <VStack spacing={'14px'}>
@@ -47,8 +47,8 @@ const EditProfile = () => {
                     </FormControl>
                 </VStack>
 
-                <Flex justify={'space-between'} mt='56px'>
-                    <Button
+                <Flex direction={{base:'column', md:'row'}} justify={'right'} mr='20px' mt='56px'>
+                    {/* <Button
                             leftIcon={<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M13.167 3.99996H17.3337V5.66663H15.667V16.5C15.667 16.721 15.5792 16.9329 15.4229 17.0892C15.2666 17.2455 15.0547 17.3333 14.8337 17.3333H3.16699C2.94598 17.3333 2.73402 17.2455 2.57774 17.0892C2.42146 16.9329 2.33366 16.721 2.33366 16.5V5.66663H0.666992V3.99996H4.83366V1.49996C4.83366 1.27895 4.92146 1.06698 5.07774 0.910704C5.23402 0.754423 5.44598 0.666626 5.66699 0.666626H12.3337C12.5547 0.666626 12.7666 0.754423 12.9229 0.910704C13.0792 1.06698 13.167 1.27895 13.167 1.49996V3.99996ZM14.0003 5.66663H4.00033V15.6666H14.0003V5.66663ZM6.50033 2.33329V3.99996H11.5003V2.33329H6.50033Z" fill="white"/>
                             </svg>
@@ -66,8 +66,8 @@ const EditProfile = () => {
                         }}
                         >   
                             Hapus
-                    </Button>
-                    <HStack spacing={'40px'}>
+                    </Button> */}
+                    <Stack direction={{base:'column', md:'row'}} spacing={'40px'}>
                         <Button
                                 leftIcon={<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M13.167 3.99996H17.3337V5.66663H15.667V16.5C15.667 16.721 15.5792 16.9329 15.4229 17.0892C15.2666 17.2455 15.0547 17.3333 14.8337 17.3333H3.16699C2.94598 17.3333 2.73402 17.2455 2.57774 17.0892C2.42146 16.9329 2.33366 16.721 2.33366 16.5V5.66663H0.666992V3.99996H4.83366V1.49996C4.83366 1.27895 4.92146 1.06698 5.07774 0.910704C5.23402 0.754423 5.44598 0.666626 5.66699 0.666626H12.3337C12.5547 0.666626 12.7666 0.754423 12.9229 0.910704C13.0792 1.06698 13.167 1.27895 13.167 1.49996V3.99996ZM14.0003 5.66663H4.00033V15.6666H14.0003V5.66663ZM6.50033 2.33329V3.99996H11.5003V2.33329H6.50033Z" fill="white"/>
@@ -102,7 +102,7 @@ const EditProfile = () => {
                             >   
                                 Simpan
                         </Button>
-                    </HStack>
+                    </Stack>
                 </Flex>
             </Box>
         </LayoutDashboardUser>
