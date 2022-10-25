@@ -7,7 +7,7 @@ const NegosiasiUser = () => {
         <LayoutDashboardUser pageTitle={'Negosiasi'}>
             <Box>
                 <Tabs mt='30px' variant='soft-rounded' colorScheme='green'>
-                    <TabList>
+                    <TabList flexDirection={{base:'column', md: 'row'}}>
                         <Tab>Pemesanan</Tab>
                         <Tab>Selesai</Tab>
                         <Tab>Dibatalkan</Tab>

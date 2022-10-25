@@ -53,7 +53,7 @@ const LayoutDashboardUser = ({pageTitle,children,bgColor,color}) => {
                         <hr />
                     </Box>
                 </Hide>
-                <Box mt='40px' bgColor={'#ffff'} pt='28px' px='57px' width={{lg:'598px',xl:'65%','2xl':'100%'}} height='796px' borderRadius='8px'>
+                <Box mt='40px' bgColor={'#ffff'} pt='28px' px={{base:'4px',md:'57px'}} width={{base:'100%',lg:'598px',xl:'65%','2xl':'100%'}} height='796px' borderRadius='8px'>
                     {children}
                 </Box>
             </Flex>
