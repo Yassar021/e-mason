@@ -60,10 +60,10 @@ const AuthLogin = ()  => {
                     <Stack direction={{base:'column',md:'row'}} spacing={'10px'} mt='24px'>
                         <Text fontSize={'18px'} fontWeight='500' fontFamily={'Poppins'}>Belum Punya Akun ?</Text>
                         <Link href='/RegisterPage' style={{textDecoration:'none'}}>
-                            <Text fontSize={'18px'} fontWeight='500' fontFamily={'Poppins'} color='#3E38F5'>Daftar Tukang</Text>
+                            <Text fontSize={'18px'} fontWeight='500' fontFamily={'Poppins'} color='#3E38F5'>Daftar Pengguna</Text>
                         </Link>
                         <Link href='/RegisterTukang' style={{textDecoration:'none'}}>
-                            <Text fontSize={'18px'} fontWeight='500' fontFamily={'Poppins'} color='#3E38F5'>Daftar Pengguna</Text>
+                            <Text fontSize={'18px'} fontWeight='500' fontFamily={'Poppins'} color='#3E38F5'>Daftar Tukang</Text>
                         </Link>
                     </Stack>
                 </Center>
