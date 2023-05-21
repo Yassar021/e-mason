@@ -1,13 +1,13 @@
-import { Box, Button, Flex, HStack, Link, Stack, Text } from "@chakra-ui/react"
+import { Avatar, Box, Button, Flex, HStack, Link, Stack, Text } from "@chakra-ui/react"
 import Image from "next/image"
 
-const CardTukang = ({name, star, status, image}) => {
+const CardTukang = ({ name, image }) => {
     return (
-       <Box mt={{base:'12px', md:'0px'}} w='300px' h='300px' py='24px' px='40px' borderRadius={'8px'} bgColor='#fff'>
+        <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} mt={{ base: '12px', md: '0px' }} w='300px' h='300px' py='24px' px='40px' borderRadius={'8px'} bgColor='#fff'>
             <Flex direction="column" mx='auto' textAlign={'center'} alignItems='center'>
-                <Image style={{borderRadius:'50%'}} width='110px' height={'110px'} src={image} alt='Profile Tukang'  />
-                <Text my='5px' fontSize={'18px'} fontWeight='500' fontFamily={'Poppins'}>{name}</Text>
-                <HStack spacing='8px'>
+                <Avatar size='xl' name={name} src={image} />
+                <Text my='5px' fontSize={'18px'} fontWeight='600' fontFamily={'Poppins'}>{name}</Text>
+                {/* <HStack spacing='8px'>
                     <HStack spacing='4px'>
                         <Stack>
                             <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -17,27 +17,27 @@ const CardTukang = ({name, star, status, image}) => {
                         <Text fontSize={'14px'} fontWeight='500' fontFamily={'Poppins'}>{star}</Text>
                     </HStack>
                     <Text>| {status}</Text>
-                </HStack>
+                </HStack> */}
             </Flex>
-            <Link href="DetailTukangPage" style={{textDecoration: 'none'}}>
+            <Link href="DetailTukangPage" style={{ textDecoration: 'none' }}>
                 <Button
-                        mt='18px'
-                        size='md'
-                        height='60px'
-                        width={'100%'}
-                        color={'#fff'}
-                        bgColor='#3E38F5'
-                        borderRadius={'6px'}
-                        _hover={{ bg: '#3E38F5' }}
-                        _active={{
+                    mt='18px'
+                    size='md'
+                    height='60px'
+                    width={'100%'}
+                    color={'#fff'}
+                    bgColor='#3E38F5'
+                    borderRadius={'6px'}
+                    _hover={{ bg: '#3E38F5' }}
+                    _active={{
                         bg: '#3E38F5',
                         transform: 'scale(0.98)',
-                        }}
-                        >
-                        Detail
-                    </Button>
+                    }}
+                >
+                    Detail
+                </Button>
             </Link>
-       </Box> 
+        </Box>
     )
 }
 
