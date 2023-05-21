@@ -29,7 +29,7 @@ const LayoutDashboardTukang = ({ pageTitle, children, bgColor, color }) => {
                             <hr />
                             <Box px={{ lg: '40px', xl: '90px' }} py='15px'>
                                 <Box py='8px' px='12px' width={'210px'} height='45px' bgColor={bgColor} borderRadius={'5px'}>
-                                    <Link style={{ textDecoration: 'none' }} href='/negosiasiUserPage'>
+                                    <Link style={{ textDecoration: 'none' }} href='/dashboardTukangPage'>
                                         <Stack direction={'row'} spacing='12px'>
                                             <Stack mt='4px'>
                                                 <svg width="22" height="18" viewBox="0 0 22 18" fill="none" xmlns="http://www.w3.org/2000/svg">
