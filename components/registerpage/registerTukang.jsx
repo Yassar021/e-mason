@@ -28,6 +28,14 @@ const RegisterTukang = () => {
                 duration: 9000,
                 isClosable: true,
             })
+
+        if (field.password.length < 6)
+            return toast({
+                title: 'Pastikan password minimal 6 karakter!',
+                status: 'warning',
+                duration: 9000,
+                isClosable: true,
+            })
         setLoading(true);
         try {
             const createUser = httpsCallable(functions, 'createUser');

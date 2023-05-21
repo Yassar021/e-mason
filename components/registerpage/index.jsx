@@ -1,10 +1,69 @@
-import { Box, Button, Center, Flex, Input, InputGroup, InputRightElement, Link, Stack, Text, VStack } from "@chakra-ui/react"
+import { Box, Button, Center, Flex, Input, InputGroup, InputRightElement, Link, Stack, Text, VStack, useToast } from "@chakra-ui/react"
 import { useState } from "react";
 import LayoutAuth from "../../layout/LayoutAuth"
+import { httpsCallable } from "firebase/functions";
+import functions from "../../utils/firebase/function";
 
 const RegisterPage = () => {
+
+    const [loading, setLoading] = useState(false);
+    const toast = useToast()
     const [show, setShow] = useState(false);
+    const [field, setField] = useState({
+        nama: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+        tanggalLahir: "",
+        nomorTelepon: "",
+        alamat: "",
+    })
     const handleClick = () => setShow(!show);
+    const handleRegister = async (e) => {
+        e.preventDefault();
+        if (field.password !== field.confirmPassword)
+            return toast({
+                title: 'Pastikan password sama!',
+                status: 'warning',
+                duration: 9000,
+                isClosable: true,
+            })
+
+        if (field.password.length < 6)
+            return toast({
+                title: 'Pastikan password minimal 6 karakter!',
+                status: 'warning',
+                duration: 9000,
+                isClosable: true,
+            })
+
+        setLoading(true);
+        try {
+            const createUser = httpsCallable(functions, 'createUser');
+            const result = await createUser({
+                ...field,
+                type: "pengguna",
+            })
+            setLoading(false);
+            // console.log(result);
+            toast({
+                title: 'Akun berhasi dibuat',
+                description: "Kami telah buat untuk anda.",
+                status: 'success',
+                duration: 9000,
+                isClosable: true,
+            })
+        } catch (error) {
+            toast({
+                title: 'Akun gagal dibuat',
+                description: "Kami gagal buat untuk anda.",
+                status: 'error',
+                duration: 9000,
+                isClosable: true,
+            })
+            setLoading(false);
+        }
+    }
 
     return (
         <LayoutAuth pageTitle={'Register Pengguna'}>
@@ -13,15 +72,15 @@ const RegisterPage = () => {
                     <Text fontFamily={'Poppins'} fontSize='40px' fontWeight={'500'}>Registrasi Pengguna</Text>
                 </Center>
 
-                <Flex direction={'column'} gap='24px'>
+                <Flex as="form" onSubmit={handleRegister} direction={'column'} gap='24px'>
                     <VStack spacing={'10px'} alignItems='baseline'>
                         <Text fontSize={'20px'} fontWeight='500' fontFamily={'Poppins'}>Nama</Text>
-                        <Input placeholder='masukkan nama anda' size='lg' />
-                    </VStack> 
+                        <Input required onChange={(e) => setField(field => ({ ...field, nama: e.target.value }))} placeholder='masukkan nama anda' size='lg' />
+                    </VStack>
 
                     <VStack spacing={'10px'} alignItems='baseline'>
                         <Text fontSize={'20px'} fontWeight='500' fontFamily={'Poppins'}>Email Address</Text>
-                        <Input placeholder='masukkan email anda' size='lg' />
+                        <Input type="email" onChange={(e) => setField(field => ({ ...field, email: e.target.value }))} required placeholder='masukkan email anda' size='lg' />
                     </VStack>
 
                     <VStack spacing={'10px'} alignItems='baseline'>
@@ -31,6 +90,9 @@ const RegisterPage = () => {
                                 pr='4.5rem'
                                 type={show ? 'text' : 'password'}
                                 placeholder='masukkan password anda'
+                                onChange={(e) => setField(field => ({ ...field, password: e.target.value }))}
+                                required
+                                min={6}
                             />
                             <InputRightElement width='4.5rem'>
                                 <Button h='1.75rem' size='sm' onClick={handleClick}>
@@ -47,6 +109,9 @@ const RegisterPage = () => {
                                 pr='4.5rem'
                                 type={show ? 'text' : 'password'}
                                 placeholder='masukkan ulang password anda'
+                                onChange={(e) => setField(field => ({ ...field, confirmPassword: e.target.value }))}
+                                required
+                                min={6}
                             />
                             <InputRightElement width='4.5rem'>
                                 <Button h='1.75rem' size='sm' onClick={handleClick}>
@@ -57,21 +122,22 @@ const RegisterPage = () => {
                     </VStack>
 
                     <VStack spacing={'10px'} alignItems='baseline'>
-                        <Text fontSize={'20px'} fontWeight='500' fontFamily={'Poppins'}>Usia</Text>
-                        <Input placeholder='masukkan usia anda' size='lg' />
+                        <Text fontSize={'20px'} fontWeight='500' fontFamily={'Poppins'}>Tanggal Lahir</Text>
+                        <Input type="date" required placeholder='masukkan tanggal lahir anda' size='lg' onChange={(e) => setField(field => ({ ...field, tanggalLahir: e.target.value }))} />
                     </VStack>
 
                     <VStack spacing={'10px'} alignItems='baseline'>
                         <Text fontSize={'20px'} fontWeight='500' fontFamily={'Poppins'}>Nomor Telepon</Text>
-                        <Input placeholder='masukkan telepon anda' size='lg' />
+                        <Input type="number" required placeholder='masukkan telepon anda' size='lg' onChange={(e) => setField(field => ({ ...field, nomorTelepon: e.target.value }))} />
                     </VStack>
 
                     <VStack spacing={'10px'} alignItems='baseline'>
                         <Text fontSize={'20px'} fontWeight='500' fontFamily={'Poppins'}>alamat</Text>
-                        <Input placeholder='masukkan alamat anda' size='lg' />
+                        <Input required placeholder='masukkan alamat anda' size='lg' onChange={(e) => setField(field => ({ ...field, alamat: e.target.value }))} />
                     </VStack>
 
                     <Button
+                        isLoading={loading}
                         mt='46px'
                         size='md'
                         height='60px'
@@ -81,15 +147,16 @@ const RegisterPage = () => {
                         borderRadius={'6px'}
                         _hover={{ bg: '#3E38F5' }}
                         _active={{
-                        bg: '#3E38F5',
-                        transform: 'scale(0.98)',
+                            bg: '#3E38F5',
+                            transform: 'scale(0.98)',
                         }}
-                        >
-                        Login
+                        type="submit"
+                    >
+                        Daftar
                     </Button>
 
                     <Center>
-                        <Stack direction={{base:'column',md:'row'}} spacing={'10px'} mt='24px'>
+                        <Stack direction={{ base: 'column', md: 'row' }} spacing={'10px'} mt='24px'>
                             <Text fontSize={'18px'} fontWeight='500' fontFamily={'Poppins'}>Sudah Punya Akun ?</Text>
                             <Link href='/' >
                                 <Text fontSize={'18px'} fontWeight='500' fontFamily={'Poppins'} color='#3E38F5'>Login</Text>
