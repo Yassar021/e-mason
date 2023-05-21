@@ -1,13 +1,16 @@
 import { Box, Button, Center, Flex, Input, InputGroup, InputRightElement, Link, Stack, Text, VStack, useToast } from "@chakra-ui/react"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LayoutAuth from "../../layout/LayoutAuth"
 import { httpsCallable } from "firebase/functions";
 import functions from "../../utils/firebase/function";
+import { useRouter } from "next/router";
+import { authCheck } from "../../utils/firebase/auth";
 
 const RegisterPage = () => {
 
     const [loading, setLoading] = useState(false);
     const toast = useToast()
+    const router = useRouter();
     const [show, setShow] = useState(false);
     const [field, setField] = useState({
         nama: "",
@@ -18,6 +21,12 @@ const RegisterPage = () => {
         nomorTelepon: "",
         alamat: "",
     })
+    const [check] = authCheck();
+    useEffect(() => {
+        if (check) {
+            router.replace('/');
+        }
+    }, [router, check])
     const handleClick = () => setShow(!show);
     const handleRegister = async (e) => {
         e.preventDefault();

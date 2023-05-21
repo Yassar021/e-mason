@@ -1,14 +1,25 @@
 import { Box, Button, Center, Flex, Input, InputGroup, InputRightElement, Link, Stack, Text, VStack, useToast } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LayoutAuth from "../../layout/LayoutAuth";
 
 import { httpsCallable } from "firebase/functions";
 import functions from "../../utils/firebase/function";
+import { authCheck } from "../../utils/firebase/auth";
+import { useRouter } from "next/router";
 
 const RegisterTukang = () => {
     const [loading, setLoading] = useState(false);
-    const toast = useToast()
+    const toast = useToast();
+    const router = useRouter();
     const [show, setShow] = useState(false);
+
+    const [check] = authCheck();
+    useEffect(() => {
+        if (check) {
+            router.replace('/');
+        }
+    }, [router, check])
+
     const [field, setField] = useState({
         nama: "",
         email: "",
