@@ -22,11 +22,9 @@ const RegisterPage = () => {
         alamat: "",
     })
     const [check] = authCheck();
-    useEffect(() => {
-        if (check) {
-            router.replace('/');
-        }
-    }, [router, check])
+    if (check) {
+        router.replace('/');
+    }
     const handleClick = () => setShow(!show);
     const handleRegister = async (e) => {
         e.preventDefault();
@@ -54,7 +52,6 @@ const RegisterPage = () => {
                 type: "pengguna",
             })
             setLoading(false);
-            // console.log(result);
             toast({
                 title: 'Akun berhasi dibuat',
                 description: "Kami telah buat untuk anda.",

@@ -10,16 +10,14 @@ const auth = getAuth();
 const AuthLogin = () => {
     const router = useRouter();
     const [check, user] = authCheck();
-    useEffect(() => {
-        if (check) {
-            if (user.data.type === 'pengguna') {
-                router.replace("/HomePage")
-            }
-            if (user.data.type === 'tukang') {
-                router.replace("/dashboardTukangPage")
-            }
+    if (check) {
+        if (user.data.type === 'pengguna') {
+            router.replace("/HomePage")
         }
-    }, [check, router, user]);
+        if (user.data.type === 'tukang') {
+            router.replace("/dashboardTukangPage")
+        }
+    }
 
     const [show, setShow] = useState(false);
     const handleClick = () => setShow(!show);

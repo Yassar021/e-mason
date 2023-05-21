@@ -14,11 +14,9 @@ const RegisterTukang = () => {
     const [show, setShow] = useState(false);
 
     const [check] = authCheck();
-    useEffect(() => {
-        if (check) {
-            router.replace('/');
-        }
-    }, [router, check])
+    if (check) {
+        router.replace('/');
+    }
 
     const [field, setField] = useState({
         nama: "",
@@ -55,7 +53,6 @@ const RegisterTukang = () => {
                 type: "tukang",
             })
             setLoading(false);
-            // console.log(result);
             toast({
                 title: 'Akun berhasi dibuat',
                 description: "Kami telah buat untuk anda.",
