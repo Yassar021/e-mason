@@ -1,16 +1,85 @@
-import { Box, Button, Center, Flex, FormControl, Image, Input, Stack, Text, VStack } from "@chakra-ui/react"
+import { Avatar, Box, Button, Center, Flex, FormControl, FormLabel, Image, Input, Stack, Text, VStack, useToast } from "@chakra-ui/react"
 import LayoutDashboardTukang from "../../layout/LayoutDashboardTukang"
+import { useRef, useState } from "react";
+import { authCheck } from "../../utils/firebase/auth";
+import { httpsCallable } from "firebase/functions";
+import functions from "../../utils/firebase/function";
+import { uploadFile } from "../../utils/firebase/storage";
 
 const EditProfileTukang = () => {
+    const [loading, setLoading] = useState(false);
+    const toast = useToast()
+    const ref = useRef();
+    const [check, user] = authCheck();
+    const [field, setField] = useState({
+        keahlian: "",
+    })
+
+    const handleUpdate = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        try {
+            const updateUser = httpsCallable(functions, 'updateUser');
+            await updateUser({
+                ...field,
+                id: user?.data?.id,
+            })
+            setLoading(false);
+            toast({
+                title: 'Data berhasil diupdate',
+                description: "Kami telah buat untuk anda.",
+                status: 'success',
+                duration: 9000,
+                isClosable: true,
+            })
+        } catch (error) {
+            toast({
+                title: 'Data gagal diupdate',
+                description: "Kami gagal buat untuk anda.",
+                status: 'error',
+                duration: 9000,
+                isClosable: true,
+            })
+            setLoading(false);
+        }
+    }
+
+    const handleFile = async (e) => {
+        setLoading(true);
+        try {
+            const result = await uploadFile(e.target.files[0]);
+            setLoading(false);
+            setField(field => ({
+                ...field,
+                avatar: `https://firebasestorage.googleapis.com/v0/b/emason-c2ba1.appspot.com/o/${result.metadata.name}?alt=media&token=bbec618f-de0c-40cb-ac94-91456bafe111`
+            }));
+            toast({
+                title: 'avatar berhasil diupload',
+                status: 'success',
+                duration: 9000,
+                isClosable: true,
+            })
+        } catch (error) {
+            setLoading(false);
+            toast({
+                title: 'avatar gagal diupload',
+                status: 'error',
+                duration: 9000,
+                isClosable: true,
+            })
+        }
+    }
     return (
         <LayoutDashboardTukang pageTitle={'Edit Tukang'}>
-            <Box justifyContent={{ md: 'center', lg: 'right' }}>
+            <Box as='form' onSubmit={handleUpdate} justifyContent={{ md: 'center', lg: 'right' }}>
                 <Text fontSize={'24px'} fontWeight='600'>Ubah Profile Tukang</Text>
                 <Center>
                     <VStack spacing={'14px'}>
-                        <Image width={'123px'} height='123px' style={{ borderRadius: '50%' }} src='/avatar.jpg' alt='Profile Pengguna' />
+                        <Avatar size='xl' name={user?.data?.nama} src={user?.data?.avatar} />
+                        <Input accept="image/*" display={'none'} onChange={handleFile} pt='4px' placeholder='foto bangunan' ref={ref} type='file' required />
                         <Button
                             mt='18px'
+                            onClick={() => ref.current.click()}
                             size='md'
                             height='35px'
                             width={'100%'}
@@ -23,6 +92,7 @@ const EditProfileTukang = () => {
                                 transform: 'scale(0.98)',
                             }}
                         >
+
                             Pilih Foto
                         </Button>
                     </VStack>
@@ -30,60 +100,36 @@ const EditProfileTukang = () => {
 
                 <VStack spacing='15px' mt='34px'>
                     <FormControl>
-                        <Input type='nama' placeholder="Nama" />
+                        <FormLabel>Nama</FormLabel>
+                        <Input defaultValue={user?.data?.nama} required onChange={(e) => setField(field => ({ ...field, nama: e.target.value }))} placeholder="Nama" />
                     </FormControl>
                     <FormControl>
-                        <Input type='tanggalLahir' placeholder="Tanggal Lahir" />
+                        <FormLabel>Email</FormLabel>
+                        <Input defaultValue={user?.data?.email} required onChange={(e) => setField(field => ({ ...field, email: e.target.value }))} type='email' placeholder="email" />
                     </FormControl>
                     <FormControl>
-                        <Input type='nomorTelepon' placeholder="Nomor Telepon" />
+                        <FormLabel>Alamat</FormLabel>
+                        <Input defaultValue={user?.data?.alamat} required onChange={(e) => setField(field => ({ ...field, alamat: e.target.value }))} placeholder="Alamat" />
                     </FormControl>
                     <FormControl>
-                        <Input type='alamat' placeholder="Alamat" />
+                        <FormLabel>Tanggal Lahir</FormLabel>
+                        <Input type='date' defaultValue={user?.data?.tanggalLahir} required onChange={(e) => setField(field => ({ ...field, tanggalLahir: e.target.value }))} placeholder="Tanggal Lahir" />
+                    </FormControl>
+                    <FormControl>
+                        <FormLabel>Nomor Telepon</FormLabel>
+                        <Input type='number' defaultValue={user?.data?.nomorTelepon} required onChange={(e) => setField(field => ({ ...field, nomorTelepon: e.target.value }))} placeholder="Nomor Telepon" />
+                    </FormControl>
+                    <FormControl>
+                        <FormLabel>Keahlian</FormLabel>
+                        <Input required defaultValue={user?.data?.keahlian} onChange={(e) => setField(field => ({ ...field, keahlian: e.target.value }))} placeholder="Keahlian" />
                     </FormControl>
                 </VStack>
 
                 <Flex direction={{ base: 'column', md: 'row' }} justify={'right'} mr='20px' mt='56px'>
-                    {/* <Button
-                            leftIcon={<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M13.167 3.99996H17.3337V5.66663H15.667V16.5C15.667 16.721 15.5792 16.9329 15.4229 17.0892C15.2666 17.2455 15.0547 17.3333 14.8337 17.3333H3.16699C2.94598 17.3333 2.73402 17.2455 2.57774 17.0892C2.42146 16.9329 2.33366 16.721 2.33366 16.5V5.66663H0.666992V3.99996H4.83366V1.49996C4.83366 1.27895 4.92146 1.06698 5.07774 0.910704C5.23402 0.754423 5.44598 0.666626 5.66699 0.666626H12.3337C12.5547 0.666626 12.7666 0.754423 12.9229 0.910704C13.0792 1.06698 13.167 1.27895 13.167 1.49996V3.99996ZM14.0003 5.66663H4.00033V15.6666H14.0003V5.66663ZM6.50033 2.33329V3.99996H11.5003V2.33329H6.50033Z" fill="white"/>
-                            </svg>
-                            }
-                            size='md'
-                            height='40px'
-                            width={'107px'}
-                            color={'#fff'}
-                            bgColor='#C80808'
-                            borderRadius={'6px'}
-                            _hover={{ bg: '#C80808' }}
-                            _active={{
-                            bg: '#C80808',
-                            transform: 'scale(0.98)',
-                        }}
-                        >   
-                            Hapus
-                    </Button> */}
                     <Stack direction={{ base: 'column', md: 'row' }} spacing={'40px'}>
                         <Button
-                            leftIcon={<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M13.167 3.99996H17.3337V5.66663H15.667V16.5C15.667 16.721 15.5792 16.9329 15.4229 17.0892C15.2666 17.2455 15.0547 17.3333 14.8337 17.3333H3.16699C2.94598 17.3333 2.73402 17.2455 2.57774 17.0892C2.42146 16.9329 2.33366 16.721 2.33366 16.5V5.66663H0.666992V3.99996H4.83366V1.49996C4.83366 1.27895 4.92146 1.06698 5.07774 0.910704C5.23402 0.754423 5.44598 0.666626 5.66699 0.666626H12.3337C12.5547 0.666626 12.7666 0.754423 12.9229 0.910704C13.0792 1.06698 13.167 1.27895 13.167 1.49996V3.99996ZM14.0003 5.66663H4.00033V15.6666H14.0003V5.66663ZM6.50033 2.33329V3.99996H11.5003V2.33329H6.50033Z" fill="white" />
-                            </svg>
-                            }
-                            size='md'
-                            height='35px'
-                            width={'100%'}
-                            color={'#1E1E1E'}
-                            bgColor='transparent'
-                            borderRadius={'6px'}
-                            _hover={{ bg: 'transparent' }}
-                            _active={{
-                                bg: 'transparent',
-                                transform: 'scale(0.98)',
-                            }}
-                        >
-                            Cancel
-                        </Button>
-                        <Button
+                            isLoading={loading}
+                            type="submit"
                             size='md'
                             height='35px'
                             width={'100%'}
@@ -96,7 +142,7 @@ const EditProfileTukang = () => {
                                 transform: 'scale(0.98)',
                             }}
                         >
-                            Simpan
+                            Update
                         </Button>
                     </Stack>
                 </Flex>

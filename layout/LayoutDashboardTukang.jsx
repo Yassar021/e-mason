@@ -1,4 +1,4 @@
-import { Box, Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Flex, Hide, HStack, Link, Show, Stack, Text, useDisclosure } from "@chakra-ui/react"
+import { Avatar, Box, Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Flex, Hide, HStack, Link, Show, Stack, Text, useDisclosure } from "@chakra-ui/react"
 import Head from "next/head"
 import Image from "next/image"
 import { useRef } from "react"
@@ -18,12 +18,12 @@ const LayoutDashboardTukang = ({ pageTitle, children, bgColor, color }) => {
             </Head>
 
             <Box height="100%" bgColor={'#E9E8F9'}>
-                <Navbar />
+                <Navbar user={user} />
                 <Flex direction={'row'} pr={{ lg: '20px', xl: '89px' }} gap={{ lg: '20px', xl: '89px' }} justifyContent={{ md: 'center', lg: 'normal' }} textAlign='center'>
                     <Box width={{ lg: '280px', xl: '389px' }} minHeight='100vh' height={'auto'} bgColor={'#fff'} pt='57px' textAlign={'center'}>
                         <Hide below="md">
                             <Box px={{ lg: '40px', xl: '135px' }}>
-                                <Image width={'120px'} height='120px' style={{ borderRadius: '50%' }} src='/avatar.jpg' alt='Profile Pengguna' />
+                                <Avatar size='xl' name={user?.data?.nama} src={user?.data?.avatar} />
                                 <Text my='20px' fontSize={'18px'} fontWeight='600'>{user?.data?.nama}</Text>
                             </Box>
                             <hr />

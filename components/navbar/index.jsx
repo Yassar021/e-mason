@@ -1,10 +1,9 @@
-import { Box, Button, Flex, HStack, Menu, MenuButton, MenuItem, MenuList, Text } from "@chakra-ui/react"
-import Image from "next/image"
+import { Avatar, Box, Button, Flex, HStack, Menu, MenuButton, MenuItem, MenuList, Text } from "@chakra-ui/react"
 import Link from "next/link"
 import { handleLogout } from "../../utils/firebase/auth"
 import { useRouter } from "next/router"
 
-const Navbar = () => {
+const Navbar = ({ user }) => {
     const router = useRouter();
     const handleClick = () => {
         handleLogout(router);
@@ -34,7 +33,7 @@ const Navbar = () => {
                                     <path d="M12 15L12.7071 15.7071L12 16.4142L11.2929 15.7071L12 15ZM18.7071 9.70711L12.7071 15.7071L11.2929 14.2929L17.2929 8.29289L18.7071 9.70711ZM11.2929 15.7071L5.29289 9.70711L6.70711 8.29289L12.7071 14.2929L11.2929 15.7071Z" fill="#CCD2E3" />
                                 </svg>
                             }>
-                            <Image style={{ borderRadius: '50%' }} alt='Profile' width='50px' height='50px' src='/avatar.jpg' />
+                            <Avatar size='md' name={user?.data?.nama} src={user?.data?.avatar} />
                         </MenuButton>
                         <MenuList >
                             <MenuItem onClick={handleClick}>Keluar</MenuItem>
