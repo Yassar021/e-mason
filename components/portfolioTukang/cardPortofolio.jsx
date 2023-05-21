@@ -1,7 +1,8 @@
 import { Box, Button, Flex, Image, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, VStack, useDisclosure } from "@chakra-ui/react"
 
-const CardPortofolio = ({ image, project }) => {
+const CardPortofolio = ({ image, project, handleDelete, checkDelete }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
+
     return (
         <>
             <Modal isOpen={isOpen} onClose={onClose}>
@@ -30,7 +31,7 @@ const CardPortofolio = ({ image, project }) => {
                 <Flex dir="row" gap='8px' justifyContent={'center'}>
                     <Button onClick={onOpen} colorScheme={'blue'}>Info</Button>
                     {/* <Button colorScheme={'yellow'} color={'#fff'}>Edit</Button> */}
-                    <Button colorScheme={'red'}>Hapus</Button>
+                    <Button onClick={() => handleDelete(project?.id)} isLoading={checkDelete === project?.id} colorScheme={'red'}>Hapus</Button>
                 </Flex>
             </Box>
         </>

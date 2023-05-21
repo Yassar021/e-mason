@@ -1,4 +1,4 @@
-import { Button, Flex, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, SimpleGrid, Text, useDisclosure, useToast } from "@chakra-ui/react"
+import { Button, Flex, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, SimpleGrid, Text, filter, useDisclosure, useToast } from "@chakra-ui/react"
 import LayoutDashboardTukang from "../../layout/LayoutDashboardTukang"
 import CardPortofolio from "./cardPortofolio"
 import { useEffect, useRef, useState } from "react"
@@ -17,6 +17,7 @@ const PortofolioTukang = () => {
     const [prevPage, setPrevPage] = useState(0); // storing prev page number
     const [wasLastList, setWasLastList] = useState(false);
     const listInnerRef = useRef();
+    const [checkDelete, setCheckDelete] = useState();
 
     const [field, setField] = useState({
         luasBangunan: "",
@@ -64,16 +65,47 @@ const PortofolioTukang = () => {
             });
             setLoading(false);
             toast({
-                title: 'Berhasi tambah data',
+                title: 'Berhasil tambah data',
                 status: 'success',
                 duration: 9000,
                 isClosable: true,
             })
             onClose();
+            setProjects([...projects, {
+                ...field,
+                id: true,
+                userId: user?.data?.id,
+                createdAt: new Date().toISOString(),
+            }])
         } catch (error) {
             setLoading(false);
             toast({
                 title: 'Gagal tambah data',
+                status: 'error',
+                duration: 9000,
+                isClosable: true,
+            })
+        }
+    }
+
+    const handleDelete = async (id) => {
+        setCheckDelete(id);
+        try {
+            const deleteProject = httpsCallable(functions, 'deleteProject');
+            await deleteProject(id);
+            setCheckDelete();
+            toast({
+                title: 'Berhasil hapus data',
+                status: 'success',
+                duration: 9000,
+                isClosable: true,
+            })
+            const data = projects.filter(project => project.id !== id)
+            setProjects(data);
+        } catch (error) {
+            setCheckDelete();
+            toast({
+                title: 'Gagal hapus data',
                 status: 'error',
                 duration: 9000,
                 isClosable: true,
@@ -165,7 +197,7 @@ const PortofolioTukang = () => {
                             </FormControl>
                             <FormControl mt={4}>
                                 <FormLabel>Foto Bangunan</FormLabel>
-                                <Input onChange={handleFile} pt='4px' placeholder='foto bangunan' type='file' required />
+                                <Input accept="image/*" onChange={handleFile} pt='4px' placeholder='foto bangunan' type='file' required />
                             </FormControl>
                         </ModalBody>
 
@@ -180,7 +212,7 @@ const PortofolioTukang = () => {
             </Flex>
             <SimpleGrid ref={listInnerRef} mt='40px' columns={3} spacing='20px'>
                 {
-                    projects.map(project => <CardPortofolio key={project.id} image={project?.fotoBangunan} project={project} />)
+                    projects.map(project => <CardPortofolio key={project.id} image={project?.fotoBangunan} project={project} handleDelete={handleDelete} checkDelete={checkDelete} />)
                 }
             </SimpleGrid>
         </LayoutDashboardTukang>
