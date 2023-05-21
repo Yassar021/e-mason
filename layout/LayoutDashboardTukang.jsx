@@ -24,7 +24,7 @@ const LayoutDashboardTukang = ({ pageTitle, children, bgColor, color }) => {
                         <Hide below="md">
                             <Box px={{ lg: '40px', xl: '135px' }}>
                                 <Image width={'120px'} height='120px' style={{ borderRadius: '50%' }} src='/avatar.jpg' alt='Profile Pengguna' />
-                                <Text my='20px' fontSize={'18px'} fontWeight='600'>Muhammad Rifki</Text>
+                                <Text my='20px' fontSize={'18px'} fontWeight='600'>{user?.data?.nama}</Text>
                             </Box>
                             <hr />
                             <Box px={{ lg: '40px', xl: '90px' }} py='15px'>

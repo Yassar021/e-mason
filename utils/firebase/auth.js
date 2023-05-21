@@ -26,9 +26,7 @@ export const authCheck = () => {
     return [check, user];
 }
 
-
 export const handleLogout = async (router) => {
   await signOut(auth);
   router.replace('/')
 }
-

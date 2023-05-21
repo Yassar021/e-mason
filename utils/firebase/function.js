@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getFunctions } from 'firebase/functions';
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB1NhakolQdQSyGyT1EfHOjtU0jco-4Ma4",
@@ -12,5 +13,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const functions = getFunctions(app, "asia-southeast1");
+
+export const storage = getStorage(app);
 
 export default functions;
