@@ -50,6 +50,7 @@ const RegisterPage = () => {
             const result = await createUser({
                 ...field,
                 type: "pengguna",
+                createdAt: new Date().toISOString(),
             })
             setLoading(false);
             toast({

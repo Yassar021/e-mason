@@ -1,7 +1,7 @@
 import { Button, Flex, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, SimpleGrid, Text, useDisclosure, useToast } from "@chakra-ui/react"
 import LayoutDashboardTukang from "../../layout/LayoutDashboardTukang"
 import CardPortofolio from "./cardPortofolio"
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { uploadFile } from "../../utils/firebase/storage"
 import { authCheck } from "../../utils/firebase/auth"
 import { httpsCallable } from "firebase/functions"
@@ -9,9 +9,15 @@ import functions from "../../utils/firebase/function"
 
 const PortofolioTukang = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const [projects, setProjects] = useState([]);
     const toast = useToast();
     const [loading, setLoading] = useState(false);
     const [check, user] = authCheck();
+    const [currPage, setCurrPage] = useState(1); // storing current page number
+    const [prevPage, setPrevPage] = useState(0); // storing prev page number
+    const [wasLastList, setWasLastList] = useState(false);
+    const listInnerRef = useRef();
+
     const [field, setField] = useState({
         luasBangunan: "",
         typeBangunan: "",
@@ -25,7 +31,10 @@ const PortofolioTukang = () => {
         try {
             const result = await uploadFile(e.target.files[0]);
             setLoading(false);
-            setField(field => ({ ...field, fotoBangunan: result.metadata.name }));
+            setField(field => ({
+                ...field,
+                fotoBangunan: `https://firebasestorage.googleapis.com/v0/b/emason-c2ba1.appspot.com/o/${result.metadata.name}?alt=media&token=bbec618f-de0c-40cb-ac94-91456bafe111`
+            }));
             toast({
                 title: 'gambar berhasil diupload',
                 status: 'success',
@@ -50,7 +59,8 @@ const PortofolioTukang = () => {
             const createProject = httpsCallable(functions, 'createProject');
             await createProject({
                 ...field,
-                userId: user?.data?.id
+                userId: user?.data?.id,
+                createdAt: new Date().toISOString(),
             });
             setLoading(false);
             toast({
@@ -71,8 +81,50 @@ const PortofolioTukang = () => {
         }
     }
 
+    const onScroll = () => {
+        if (listInnerRef.current) {
+            const { scrollTop, scrollHeight, clientHeight } = listInnerRef.current;
+            console.log(scrollTop + clientHeight === scrollHeight);
+            console.log(scrollTop, scrollHeight, clientHeight);
+            if (scrollTop + clientHeight === scrollHeight) {
+                setCurrPage(currPage + 1);
+            }
+        }
+    };
+    useEffect(() => {
+        const fetchData = async () => {
+            if (!user) return;
+            const getProjects = httpsCallable(functions, 'getProjects')
+            const response = await getProjects({
+                page: currPage,
+                limit: 6,
+                userId: user?.data?.id,
+            })
+            if (!response.data.data.length) {
+                setWasLastList(true);
+                return;
+            }
+            setPrevPage(currPage);
+            setProjects([...projects, ...response.data.data]);
+        };
+        if (!wasLastList && prevPage !== currPage) {
+            fetchData();
+        }
+    }, [currPage, wasLastList, prevPage, user, projects]);
+
+    useEffect(() => {
+        function watchScroll() {
+            window.addEventListener('scroll', onScroll);
+        }
+        watchScroll();
+        return () => {
+            window.removeEventListener('scroll', onScroll);
+        }
+    }, [])
+
     return (
-        <LayoutDashboardTukang pageTitle={'Portfolio'}>
+        <LayoutDashboardTukang onScroll={onScroll}
+            pageTitle={'Portfolio'}>
             <Flex dir="row" justifyContent={'space-between'}>
                 <Text fontSize={'24px'} fontWeight='600'>Riwayat Bangunan Yang Dikerjakan</Text>
                 <Button colorScheme={'blue'} onClick={onOpen}>Tambah Portofolio</Button>
@@ -126,8 +178,10 @@ const PortofolioTukang = () => {
                     </ModalContent>
                 </Modal>
             </Flex>
-            <SimpleGrid mt='40px' columns={3} spacing='20px'>
-                <CardPortofolio />
+            <SimpleGrid ref={listInnerRef} mt='40px' columns={3} spacing='20px'>
+                {
+                    projects.map(project => <CardPortofolio key={project.id} image={project?.fotoBangunan} project={project} />)
+                }
             </SimpleGrid>
         </LayoutDashboardTukang>
     )

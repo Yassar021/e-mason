@@ -17,10 +17,10 @@ const LayoutDashboardTukang = ({ pageTitle, children, bgColor, color }) => {
                 <title>E-Mason App | {pageTitle}</title>
             </Head>
 
-            <Box height={'auto'} bgColor={'#E9E8F9'} pb='40px'>
+            <Box height="100%" bgColor={'#E9E8F9'}>
                 <Navbar />
                 <Flex direction={'row'} pr={{ lg: '20px', xl: '89px' }} gap={{ lg: '20px', xl: '89px' }} justifyContent={{ md: 'center', lg: 'normal' }} textAlign='center'>
-                    <Box width={{ lg: '280px', xl: '389px' }} height='100vh' bgColor={'#fff'} pt='57px' textAlign={'center'}>
+                    <Box width={{ lg: '280px', xl: '389px' }} minHeight='100vh' height={'auto'} bgColor={'#fff'} pt='57px' textAlign={'center'}>
                         <Hide below="md">
                             <Box px={{ lg: '40px', xl: '135px' }}>
                                 <Image width={'120px'} height='120px' style={{ borderRadius: '50%' }} src='/avatar.jpg' alt='Profile Pengguna' />
@@ -78,7 +78,7 @@ const LayoutDashboardTukang = ({ pageTitle, children, bgColor, color }) => {
                             <hr />
                         </Hide>
                     </Box>
-                    <Box mt='40px' bgColor={'#ffff'} pt='28px' px={{ base: '4px', md: '57px' }} width={{ base: '100%', lg: '700px', xl: '65%', '2xl': '100%' }} height='796px' borderRadius='8px'>
+                    <Box mt='40px' bgColor={'#ffff'} py='28px' px={{ base: '4px', md: '57px' }} width={{ base: '100%', lg: '700px', xl: '65%', '2xl': '100%' }} height='100%' borderRadius='8px'>
                         <Hide above='lg'>
                             <Button
                                 leftIcon={<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

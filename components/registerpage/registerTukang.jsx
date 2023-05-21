@@ -51,6 +51,7 @@ const RegisterTukang = () => {
             const result = await createUser({
                 ...field,
                 type: "tukang",
+                createdAt: new Date().toISOString(),
             })
             setLoading(false);
             toast({
