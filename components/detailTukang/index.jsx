@@ -1,4 +1,4 @@
-import { Box, Button, Center, Flex, Image, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, SimpleGrid, Table, TableCaption, TableContainer, Tbody, Td, Text, Th, Thead, Tr, VStack, useDisclosure } from "@chakra-ui/react"
+import { Box, Button, Center, Flex, Image, Img, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, SimpleGrid, Table, TableCaption, TableContainer, Tbody, Td, Text, Th, Thead, Tr, VStack, useDisclosure } from "@chakra-ui/react"
 import LayoutHomePage from "../../layout/LayoutHomePage"
 
 
@@ -32,7 +32,7 @@ const DetailTukang = ({ user }) => {
 
             <LayoutHomePage pageTitle={'Detail Tukang'}>
                 <Flex direction={{ base: 'column', md: 'column', lg: 'row', xl: 'row' }} gap={{ lg: '20px', xl: '60px' }}>
-                    <Image borderRadius={'8px'} border='2px solid #3E38F5' src="/avatar.jpg" width={'auto'} height='253px' alt='Profile Tukang' />
+                    <Img borderRadius={'8px'} border='2px solid #3E38F5' src={user?.avatar} width={'auto'} height='253px' alt='Profile Tukang' />
                     <Box borderRadius={'8px'} bgColor='#fff' width='auto' height='278px' px='24px' py='12px'>
                         <TableContainer>
                             <Table border={'none'}>
