@@ -62,7 +62,7 @@ const Home = () => {
                         <Text fontFamily={'Poppins'} fontSize='24px' fontWeight={'600'}>Tukang Tersedia</Text>
                         <SimpleGrid ref={listInnerRef} spacing={{ md: '10px', lg: '20px' }} columns={{ base: 1, md: 2, lg: 3, xl: 4 }}>
                             {
-                                users.map(user => <CardTukang key={user?.id} name={user?.nama} image={user?.avatar} />)
+                                users.map(user => <CardTukang key={user?.id} id={user?.uid} name={user?.nama} image={user?.avatar} />)
                             }
                         </SimpleGrid>
                     </VStack>

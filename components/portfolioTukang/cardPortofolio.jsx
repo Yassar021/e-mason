@@ -11,12 +11,12 @@ const CardPortofolio = ({ image, project, handleDelete, checkDelete }) => {
                     <ModalHeader>Detail Proyek</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <VStack spacing='10px'>
+                        <Flex direction={'column'} gap='10px'>
                             <Text>Luas Bangunan : {project?.luasBangunan}</Text>
                             <Text>Type Bangunan : {project?.typeBangunan}</Text>
                             <Text>Kisaran Harga : Rp.{project?.harga}</Text>
                             <Text>Estimasi Waktu (hari) : {project?.estimasi}</Text>
-                        </VStack>
+                        </Flex>
                     </ModalBody>
 
                     <ModalFooter>
