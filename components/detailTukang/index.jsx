@@ -1,36 +1,60 @@
-import { Box, Button, Center, Flex, Image, Img, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, SimpleGrid, Table, TableCaption, TableContainer, Tbody, Td, Text, Th, Thead, Tr, VStack, useDisclosure } from "@chakra-ui/react"
+import { Box, Button, Center, CircularProgress, Flex, Image, Img, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, SimpleGrid, Table, TableCaption, TableContainer, Tbody, Td, Text, Th, Thead, Tr, VStack, useDisclosure } from "@chakra-ui/react"
 import LayoutHomePage from "../../layout/LayoutHomePage"
+import CardProjects from "./cardProjects"
+import { useEffect, useRef, useState } from "react";
+import { httpsCallable } from "firebase/functions";
+import functions from "../../utils/firebase/function";
 
 
 const DetailTukang = ({ user }) => {
-    const { isOpen, onOpen, onClose } = useDisclosure()
-    console.log(user)
-    return (
+    const [projects, setProjects] = useState([]);
+    const [currPage, setCurrPage] = useState(1); // storing current page number
+    const [prevPage, setPrevPage] = useState(0); // storing prev page number
+    const [wasLastList, setWasLastList] = useState(false);
+    const listInnerRef = useRef();
+    const onScroll = () => {
+        if (listInnerRef.current) {
+            const { scrollTop, scrollHeight, clientHeight } = listInnerRef.current;
+            if (scrollTop + clientHeight === scrollHeight) {
+                setCurrPage(currPage + 1);
+            }
+        }
+    };
+    useEffect(() => {
+        const fetchData = async () => {
+            if (!user) return;
+            const getProjects = httpsCallable(functions, 'getProjects')
+            const response = await getProjects({
+                page: currPage,
+                limit: 6,
+                userId: user?.id,
+            })
+            if (!response.data.data.length) {
+                setWasLastList(true);
+                return;
+            }
+            setPrevPage(currPage);
+            setProjects([...projects, ...response.data.data]);
+        };
+        if (!wasLastList && prevPage !== currPage) {
+            fetchData();
+        }
+    }, [currPage, wasLastList, prevPage, projects, user]);
+
+    useEffect(() => {
+        function watchScroll() {
+            window.addEventListener('scroll', onScroll);
+        }
+        watchScroll();
+        return () => {
+            window.removeEventListener('scroll', onScroll);
+        }
+    }, [])
+    console.log(projects)
+
+    return !user ? <Center><CircularProgress /></Center> : (
         <>
-            <Modal isOpen={isOpen} size='xl' onClose={onClose}>
-                <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader>Detail Proyek</ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody>
-                        <Flex direction={'column'} gap='20px'>
-                            <Image mx='auto' mb='12px' width='100%' borderRadius={'8px'} height='auto' src={'/bangunan1.jpg'} alt='Portofolio Tukang' />
-                            <Text>Luas Bangunan : </Text>
-                            <Text>Type Bangunan : </Text>
-                            <Text>Kisaran Harga : Rp.</Text>
-                            <Text>Estimasi Waktu (hari) : </Text>
-                        </Flex>
-                    </ModalBody>
-
-                    <ModalFooter>
-                        <Button colorScheme='blue' mr={3} onClick={onClose}>
-                            Tutup
-                        </Button>
-                    </ModalFooter>
-                </ModalContent>
-            </Modal>
-
-            <LayoutHomePage pageTitle={'Detail Tukang'}>
+            <LayoutHomePage pageTitle={'Detail Tukang'} onScroll={onScroll}>
                 <Flex direction={{ base: 'column', md: 'column', lg: 'row', xl: 'row' }} gap={{ lg: '20px', xl: '60px' }}>
                     <Img borderRadius={'8px'} border='2px solid #3E38F5' src={user?.avatar} width={'auto'} height='253px' alt='Profile Tukang' />
                     <Box borderRadius={'8px'} bgColor='#fff' width='auto' height='278px' px='24px' py='12px'>
@@ -132,8 +156,10 @@ const DetailTukang = ({ user }) => {
                 <Text mt='60px' fontSize={'24px'} fontWeight='600'>
                     Bangunan yang telah dikerjakan
                 </Text>
-                <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing='20px' mt='24px'>
-                    <Image onClick={onOpen} borderRadius={'8px'} width={'auto'} height='274px' src='/bangunan1.jpg' alt='Portfolio Bangunan' />
+                <SimpleGrid ref={listInnerRef} columns={{ base: 1, md: 2, lg: 4 }} spacing='20px' mt='24px'>
+                    {
+                        projects.map(project => <CardProjects key={project.id} image={project?.fotoBangunan} project={project} />)
+                    }
                 </SimpleGrid>
             </LayoutHomePage>
         </>
