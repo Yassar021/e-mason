@@ -66,7 +66,7 @@ const LayoutDashboardUser = ({ pageTitle, children, bgColor, color }) => {
                     <Box mt='40px' bgColor={'#ffff'} pt='28px' px={{ base: '4px', md: '57px' }} width={{ base: '100%', lg: '700px', xl: '65%', '2xl': '100%' }} height='796px' borderRadius='8px'>
                         <Hide above='lg'>
                             <Button
-                                leftIcon={<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                rightIcon={<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M5 7H19" stroke="#CCD2E3" stroke-width="2" stroke-linecap="round" />
                                     <path d="M5 12H19" stroke="#CCD2E3" stroke-width="2" stroke-linecap="round" />
                                     <path d="M5 17H19" stroke="#CCD2E3" stroke-width="2" stroke-linecap="round" />
@@ -77,7 +77,7 @@ const LayoutDashboardUser = ({ pageTitle, children, bgColor, color }) => {
                                 color={'#fff'}
                                 ref={btnRef}
                                 onClick={onOpen}>
-                                Menus
+                                Menu
                             </Button>
                         </Hide>
                         <Drawer
@@ -93,8 +93,8 @@ const LayoutDashboardUser = ({ pageTitle, children, bgColor, color }) => {
 
                                 <DrawerBody>
                                     <Box px={{ lg: '40px', xl: '135px' }}>
-                                        <Image width={'120px'} height='120px' style={{ borderRadius: '50%' }} src='/avatar.jpg' alt='Profile Pengguna' />
-                                        <Text my='20px' fontSize={'18px'} fontWeight='600'>Muhammad Rifki</Text>
+                                        <Avatar size='xl' name={user?.data?.nama} src={user?.data?.avatar} />
+                                        <Text my='20px' fontSize={'18px'} fontWeight='600'>{user?.data?.nama}</Text>
                                     </Box>
                                     <hr />
                                     <Box px={{ lg: '40px', xl: '90px' }} py='15px'>
