@@ -15,8 +15,6 @@ const Home = () => {
     const onScroll = () => {
         if (listInnerRef.current) {
             const { scrollTop, scrollHeight, clientHeight } = listInnerRef.current;
-            console.log(scrollTop + clientHeight === scrollHeight);
-            console.log(scrollTop, scrollHeight, clientHeight);
             if (scrollTop + clientHeight === scrollHeight) {
                 setCurrPage(currPage + 1);
             }

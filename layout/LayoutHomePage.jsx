@@ -15,7 +15,7 @@ const LayoutHomePage = ({ pageTitle, children }) => {
             </Head>
 
             <Box height={'100%'} bgColor={'#E9E8F9'} pb='200px'>
-                <Navbar />
+                <Navbar user={user} />
                 <Box mt='30px' px={{ base: '2px', md: '20px', lg: '20px', xl: '60px', '2xl': '160px' }} mx={{ base: '10px', md: '40px', lg: '20px', xl: '60px', '2xl': '160px' }}>
                     {children}
                 </Box>

@@ -76,7 +76,7 @@ const EditProfileTukang = () => {
                 <Center>
                     <VStack spacing={'14px'}>
                         <Avatar size='xl' name={user?.data?.nama} src={user?.data?.avatar} />
-                        <Input accept="image/*" display={'none'} onChange={handleFile} pt='4px' placeholder='foto bangunan' ref={ref} type='file' required />
+                        <Input accept="image/*" display={'none'} onChange={handleFile} pt='4px' placeholder='foto bangunan' ref={ref} type='file' />
                         <Button
                             mt='18px'
                             onClick={() => ref.current.click()}
