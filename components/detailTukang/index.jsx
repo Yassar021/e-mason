@@ -1,12 +1,20 @@
-import { Box, Button, Center, CircularProgress, Flex, Image, Img, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, SimpleGrid, Table, TableCaption, TableContainer, Tbody, Td, Text, Th, Thead, Tr, VStack, useDisclosure } from "@chakra-ui/react"
+import { Box, Button, Center, CircularProgress, Flex, FormControl, FormLabel, Image, Img, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, SimpleGrid, Table, TableCaption, TableContainer, Tbody, Td, Text, Th, Thead, Tr, VStack, useDisclosure, useToast } from "@chakra-ui/react"
 import LayoutHomePage from "../../layout/LayoutHomePage"
 import CardProjects from "./cardProjects"
 import { useEffect, useRef, useState } from "react";
 import { httpsCallable } from "firebase/functions";
 import functions from "../../utils/firebase/function";
+import { authCheck } from "../../utils/firebase/auth";
 
 
 const DetailTukang = ({ user }) => {
+    // set send pesanan to firebase
+    const [loading, setLoading] = useState(false);
+    const toast = useToast();
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const [_, userLogin] = authCheck();
+
+    // set fetch portofolio
     const [projects, setProjects] = useState([]);
     const [currPage, setCurrPage] = useState(1); // storing current page number
     const [prevPage, setPrevPage] = useState(0); // storing prev page number
@@ -26,7 +34,7 @@ const DetailTukang = ({ user }) => {
             const getProjects = httpsCallable(functions, 'getProjects')
             const response = await getProjects({
                 page: currPage,
-                limit: 6,
+                limit: 4,
                 userId: user?.id,
             })
             if (!response.data.data.length) {
@@ -50,9 +58,48 @@ const DetailTukang = ({ user }) => {
             window.removeEventListener('scroll', onScroll);
         }
     }, [])
-    console.log(projects)
+    // console.log(projects)
 
-    return !user ? <Center><CircularProgress /></Center> : (
+    // send Pesanan
+    const [field, setField] = useState({
+        namaTukang: "",
+        usia: "",
+        nomorTelepon: "",
+        keahlian: "",
+        tanggalPesanan: "",
+    })
+
+    const handlePesanan = async () => {
+        setLoading(true);
+        try {
+            const createOrder = httpsCallable(functions, 'createOrder');
+            const result = await createOrder({
+                penggunaId: userLogin?.data?.id,
+                tukangId: user?.id,
+                createdAt: new Date().toISOString(),
+            })
+            setLoading(false);
+            toast({
+                title: 'Pesanan berhasil dibuat',
+                description: "Kami telah buat untuk anda.",
+                status: 'success',
+                duration: 9000,
+                isClosable: true,
+            })
+            onClose();
+        } catch (error) {
+            toast({
+                title: 'Pesanan gagal dibuat',
+                description: "Kami gagal buat untuk anda.",
+                status: 'error',
+                duration: 9000,
+                isClosable: true,
+            })
+            setLoading(false);
+        }
+    }
+
+    return !user ? <Center mt='250px'><CircularProgress isIndeterminate color='blue.300' /></Center> : (
         <>
             <LayoutHomePage pageTitle={'Detail Tukang'} onScroll={onScroll}>
                 <Flex direction={{ base: 'column', md: 'column', lg: 'row', xl: 'row' }} gap={{ lg: '20px', xl: '60px' }}>
@@ -135,6 +182,7 @@ const DetailTukang = ({ user }) => {
                             <VStack spacing={'28px'}>
                                 <Text fontSize={'24px'} fontWeight='700'>Pesan Jasa</Text>
                                 <Button
+                                    onClick={onOpen}
                                     size='md'
                                     height='48px'
                                     width='200px'
@@ -148,6 +196,52 @@ const DetailTukang = ({ user }) => {
                                 >
                                     Pesan Sekarang
                                 </Button>
+
+                                <Modal
+
+                                    isOpen={isOpen}
+                                    onClose={onClose}
+                                >
+                                    <ModalOverlay />
+                                    <ModalContent>
+                                        <ModalHeader>Form Buat Pesanan</ModalHeader>
+                                        <ModalCloseButton />
+                                        <ModalBody pb={6}>
+                                            <FormControl>
+                                                <FormLabel fontSize={'16'} fontWeight='500' fontFamily={'Poppins'}>Nama Tukang</FormLabel>
+                                                <Input required value={user?.nama} isDisabled size='lg' />
+                                            </FormControl>
+
+                                            <FormControl my='12px'>
+                                                <FormLabel fontSize={'16'} fontWeight='500' fontFamily={'Poppins'}>Usia</FormLabel>
+                                                <Input required value={new Date().getFullYear() - new Date(user?.tanggalLahir).getFullYear()} tahun isDisabled size='lg' />
+                                            </FormControl>
+
+                                            <FormControl>
+                                                <FormLabel fontSize={'16'} fontWeight='500' fontFamily={'Poppins'}>Nomor Telepon</FormLabel>
+                                                <Input required value={user?.nomorTelepon} isDisabled size='lg' />
+                                            </FormControl>
+
+                                            <FormControl my='12px'>
+                                                <FormLabel fontSize={'16'} fontWeight='500' fontFamily={'Poppins'}>Keahlian</FormLabel>
+                                                <Input required value={user?.keahlian} isDisabled size='lg' />
+                                            </FormControl>
+
+                                            <FormControl>
+                                                <FormLabel fontSize={'16'} fontWeight='500' fontFamily={'Poppins'}>Tanggal Pesanan</FormLabel>
+                                                <Input required value={new Date().toISOString()} isDisabled size='lg' />
+                                            </FormControl>
+                                        </ModalBody>
+
+                                        <ModalFooter>
+                                            <Button
+                                                onClick={handlePesanan} colorScheme='blue' mr={3} isLoading={loading} type="submit">
+                                                Buat Pesanan
+                                            </Button>
+                                            <Button onClick={onClose}>Cancel</Button>
+                                        </ModalFooter>
+                                    </ModalContent>
+                                </Modal>
                             </VStack>
                         </Center>
                     </Box>
