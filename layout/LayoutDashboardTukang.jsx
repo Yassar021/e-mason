@@ -78,10 +78,10 @@ const LayoutDashboardTukang = ({ pageTitle, children, bgColor, color }) => {
                             <hr />
                         </Hide>
                     </Box>
-                    <Box mt='40px' bgColor={'#ffff'} py='28px' px={{ base: '4px', md: '57px' }} width={{ base: '100%', lg: '700px', xl: '65%', '2xl': '100%' }} height='100%' borderRadius='8px'>
+                    <Box mt='40px' bgColor={'#ffff'} py='28px' px={{ base: '4px', md: '57px' }} width={{ base: '100%', lg: '700px', xl: '65%', '2xl': '100%' }} height='auto' borderRadius='8px'>
                         <Hide above='lg'>
                             <Button
-                                leftIcon={<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                rightIcon={<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M5 7H19" stroke="#CCD2E3" strokeWidth="2" strokeLinecap="round" />
                                     <path d="M5 12H19" stroke="#CCD2E3" strokeWidth="2" strokeLinecap="round" />
                                     <path d="M5 17H19" stroke="#CCD2E3" strokeWidth="2" strokeLinecap="round" />
@@ -92,7 +92,7 @@ const LayoutDashboardTukang = ({ pageTitle, children, bgColor, color }) => {
                                 color={'#fff'}
                                 ref={btnRef}
                                 onClick={onOpen}>
-                                Menus
+                                Menu
                             </Button>
                         </Hide>
 
@@ -115,7 +115,7 @@ const LayoutDashboardTukang = ({ pageTitle, children, bgColor, color }) => {
                                     <hr />
                                     <Box px={{ lg: '40px', xl: '90px' }} py='15px'>
                                         <Box py='8px' px='12px' width={'210px'} height='45px' bgColor={bgColor} borderRadius={'5px'}>
-                                            <Link style={{ textDecoration: 'none' }} href='/negosiasiUserPage'>
+                                            <Link style={{ textDecoration: 'none' }} href='/dashboardTukangPage'>
                                                 <Stack direction={'row'} spacing='12px'>
                                                     <Stack mt='4px'>
                                                         <svg width="22" height="18" viewBox="0 0 22 18" fill="none" xmlns="http://www.w3.org/2000/svg">

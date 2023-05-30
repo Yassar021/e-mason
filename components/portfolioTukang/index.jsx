@@ -116,8 +116,8 @@ const PortofolioTukang = () => {
     const onScroll = () => {
         if (listInnerRef.current) {
             const { scrollTop, scrollHeight, clientHeight } = listInnerRef.current;
-            console.log(scrollTop + clientHeight === scrollHeight);
-            console.log(scrollTop, scrollHeight, clientHeight);
+            // console.log(scrollTop + clientHeight === scrollHeight);
+            // console.log(scrollTop, scrollHeight, clientHeight);
             if (scrollTop + clientHeight === scrollHeight) {
                 setCurrPage(currPage + 1);
             }
@@ -157,9 +157,13 @@ const PortofolioTukang = () => {
     return (
         <LayoutDashboardTukang onScroll={onScroll}
             pageTitle={'Portfolio'}>
-            <Flex dir="row" justifyContent={'space-between'}>
-                <Text fontSize={'24px'} fontWeight='600'>Riwayat Bangunan Yang Dikerjakan</Text>
-                <Button colorScheme={'blue'} onClick={onOpen}>Tambah Portofolio</Button>
+            <Flex direction={{ base: 'column', md: "row" }} justifyContent={'space-between'}>
+                <Text mb={{ base: '20px', md: '0px', }} fontSize={'24px'} fontWeight='600'>Riwayat Bangunan Yang Dikerjakan</Text>
+                <Button colorScheme={'blue'} onClick={onOpen} rightIcon={<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 6L12 18" stroke="#CCD2E3" stroke-width="2" stroke-linecap="square" stroke-linejoin="round" />
+                    <path d="M18 12L6 12" stroke="#CCD2E3" stroke-width="2" stroke-linecap="square" stroke-linejoin="round" />
+                </svg>
+                }>Tambah Portofolio</Button>
                 <Modal
                     isOpen={isOpen}
                     onClose={onClose}
@@ -210,7 +214,7 @@ const PortofolioTukang = () => {
                     </ModalContent>
                 </Modal>
             </Flex>
-            <SimpleGrid ref={listInnerRef} mt='40px' columns={3} spacing='20px'>
+            <SimpleGrid ref={listInnerRef} mt='40px' columns={{ base: 1, md: 2, lg: 2, xl: 3 }} spacing='20px'>
                 {
                     projects.map(project => <CardPortofolio key={project.id} image={project?.fotoBangunan} project={project} handleDelete={handleDelete} checkDelete={checkDelete} />)
                 }

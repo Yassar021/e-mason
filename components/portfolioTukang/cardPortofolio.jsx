@@ -26,7 +26,7 @@ const CardPortofolio = ({ image, project, handleDelete, checkDelete }) => {
                     </ModalFooter>
                 </ModalContent>
             </Modal>
-            <Box width={'300px'} height='300px' shadow={'xl'} py='20px' px='40px' borderRadius={'10px'}>
+            <Box width={{ lg: '300px', xl: 'auto' }} height='300px' shadow={'xl'} py='20px' px='40px' borderRadius={'10px'}>
                 <Image mx='auto' mb='12px' width='240px' borderRadius={'8px'} height='200px' src={image} alt='Portofolio Tukang' />
                 <Flex dir="row" gap='8px' justifyContent={'center'}>
                     <Button onClick={onOpen} colorScheme={'blue'}>Info</Button>

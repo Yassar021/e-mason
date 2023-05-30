@@ -63,7 +63,7 @@ const LayoutDashboardUser = ({ pageTitle, children, bgColor, color }) => {
                             <hr />
                         </Hide>
                     </Box>
-                    <Box mt='40px' bgColor={'#ffff'} pt='28px' px={{ base: '4px', md: '57px' }} width={{ base: '100%', lg: '700px', xl: '65%', '2xl': '100%' }} height='796px' borderRadius='8px'>
+                    <Box mt='40px' bgColor={'#ffff'} pt='28px' px={{ base: '4px', md: '57px' }} width={{ base: '100%', lg: '700px', xl: '65%', '2xl': '100%' }} height='auto' borderRadius='8px'>
                         <Hide above='lg'>
                             <Button
                                 rightIcon={<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
