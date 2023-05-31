@@ -16,7 +16,7 @@ const DashboardTukang = () => {
     const [tabIndex, setTabIndex] = useState(0);
     const [status, setStatus] = useState('');
 
-    // set fetch portofolio
+    // set fetch orders
     const [_, user] = authCheck();
     const [key, setKey] = useState(0);
     const [orders, setOrders] = useState([]);
@@ -85,7 +85,6 @@ const DashboardTukang = () => {
 
     }, [tabIndex]);
 
-    console.log(tabIndex)
 
     useEffect(() => {
         function watchScroll() {
@@ -173,10 +172,10 @@ const DashboardTukang = () => {
                             status === 'Diproses' && (
                                 <>
                                     <Button isDisabled={loading} onClick={() => handleUpdate(orders[key]?.id, "Selesai")} mx='4px' colorScheme="green">Selesai</Button>
-                                    <Button as={'a'} href={`https://wa.me/+62${orders[key]?.pengguna?.nomorTelepon}`} target="_blank" mx='4px' colorScheme="teal">Hubungi</Button>
                                 </>
                             )
                         }
+                        <Button as={'a'} href={`https://wa.me/+62${orders[key]?.pengguna?.nomorTelepon}`} target="_blank" mx='4px' colorScheme="teal">Hubungi</Button>
                         <Button onClick={onClose} colorScheme="blue">Tutup</Button>
                     </ModalFooter>
                 </ModalContent>

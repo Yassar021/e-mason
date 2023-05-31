@@ -4,9 +4,14 @@ import { useEffect, useRef, useState } from "react";
 import { httpsCallable } from "firebase/functions";
 import functions from "../../utils/firebase/function";
 import { authCheck } from "../../utils/firebase/auth";
+import { useRouter } from "next/router";
 
 const NegosiasiUser = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const [tabIndex, setTabIndex] = useState(0);
+    const [status, setStatus] = useState('');
+    const [loading, setLoading] = useState(false);
+    const router = useRouter();
 
     // set fetch portofolio
     const [_, user] = authCheck();
@@ -33,6 +38,7 @@ const NegosiasiUser = () => {
                 page: currPage,
                 limit: 10,
                 penggunaId: user?.data?.id,
+                status,
             })
             if (!response.data.data.length) {
                 setWasLastList(true);
@@ -44,7 +50,36 @@ const NegosiasiUser = () => {
         if (!wasLastList && prevPage !== currPage) {
             fetchData();
         }
-    }, [currPage, wasLastList, prevPage, orders, user]);
+    }, [currPage, wasLastList, prevPage, orders, user, status]);
+
+    useEffect(() => {
+        if (tabIndex === 0) {
+            setOrders([]);
+            setStatus('');
+            setWasLastList(false);
+            setCurrPage(1);
+        }
+        if (tabIndex === 1) {
+            setOrders([]);
+            setStatus('Diproses');
+            setWasLastList(false);
+            setCurrPage(1);
+        }
+        if (tabIndex === 2) {
+            setOrders([]);
+            setStatus('Selesai');
+            setWasLastList(false);
+            setCurrPage(1);
+        }
+        if (tabIndex === 3) {
+            setOrders([]);
+            setStatus('Dibatalkan');
+            setWasLastList(false);
+            setCurrPage(1);
+        }
+
+    }, [tabIndex]);
+
 
     useEffect(() => {
         function watchScroll() {
@@ -56,6 +91,38 @@ const NegosiasiUser = () => {
         }
     }, [])
 
+    // logic update orders
+    const handleUpdate = async (id, status) => {
+        setLoading(true);
+        try {
+            const updateOrder = httpsCallable(functions, 'updateOrder');
+            await updateOrder({
+                id: id,
+                status: status
+            })
+            setLoading(false);
+            toast({
+                title: 'Order berhasil diupdate',
+                description: "Kami telah buat untuk anda.",
+                status: 'success',
+                duration: 9000,
+                isClosable: true,
+            })
+            onClose();
+            router.reload();
+        } catch (error) {
+            toast({
+                title: 'Order gagal diupdate',
+                description: "Kami gagal buat untuk anda.",
+                status: 'error',
+                duration: 9000,
+                isClosable: true,
+            })
+            setLoading(false);
+        }
+    }
+
+    console.log(orders)
     return (
         <>
             <Modal onClose={onClose} isOpen={isOpen} isCentered>
@@ -91,7 +158,14 @@ const NegosiasiUser = () => {
                         </Stack>
                     </ModalBody>
                     <ModalFooter>
-                        <Button color='#fff' bgColor={'red'}>Batalkan Pemesanan</Button>
+                        {
+                            status === 'Diproses' && (
+                                <>
+                                    <Button isDisabled={loading} onClick={() => handleUpdate(orders[key]?.id, "Dibatalkan")} colorScheme="red">Batalkan</Button>
+                                </>
+                            )
+                        }
+                        <Button as={'a'} href={`https://wa.me/+62${orders[key]?.tukang?.nomorTelepon}`} target="_blank" mx='4px' colorScheme="teal">Hubungi</Button>
                         <Button ml='4px' onClick={onClose} colorScheme="blue">Tutup</Button>
                     </ModalFooter>
                 </ModalContent>
@@ -99,10 +173,10 @@ const NegosiasiUser = () => {
 
             <LayoutDashboardUser pageTitle={'Negosiasi'}>
                 <Box>
-                    <Tabs mt='30px' variant='soft-rounded' colorScheme='green'>
+                    <Tabs onChange={(index) => setTabIndex(index)} mt='30px' variant='soft-rounded' colorScheme='green'>
                         <TabList flexDirection={{ base: 'column', md: 'row' }}>
                             <Tab>Daftar Pesanan</Tab>
-                            <Tab>DiProses</Tab>
+                            <Tab>Diproses</Tab>
                             <Tab>Selesai</Tab>
                             <Tab>Dibatalkan</Tab>
                         </TabList>
@@ -170,28 +244,35 @@ const NegosiasiUser = () => {
                                             </Tr>
                                         </Thead>
                                         <Tbody>
-                                            <Tr>
-                                                <Td>Daeng Naba</Td>
-                                                <Td>32 tahun</Td>
-                                                <Td>0902900032</Td>
-                                                <Td>Jeneponto</Td>
-                                                <Td>-</Td>
-                                                <Td>December, 03 Agustus 2022</Td>
-                                                <Td>
-                                                    <Button
-                                                        bgColor={'#3E38F5'}
-                                                        color='#fff'
-                                                        onClick={onOpen}
-                                                        _hover={{ bg: '#3E38F5' }}
-                                                        _active={{
-                                                            bg: '#3E38F5',
-                                                            transform: 'scale(0.98)',
-                                                        }}
-                                                    >
-                                                        Info Pemesanan
-                                                    </Button>
-                                                </Td>
-                                            </Tr>
+                                            {
+                                                orders.map((order, i) =>
+                                                    <Tr key={order.id}>
+                                                        <Td>{order?.tukang?.nama}</Td>
+                                                        <Td>{new Date().getFullYear() - new Date(order?.tukang?.tanggalLahir).getFullYear()} tahun</Td>
+                                                        <Td>{order?.tukang?.nomorTelepon}</Td>
+                                                        <Td>{order?.tukang?.alamat}</Td>
+                                                        <Td>{order?.tukang?.keahlian}</Td>
+                                                        <Td>{order?.createdAt}</Td>
+                                                        <Td>
+                                                            <Button
+                                                                bgColor={'#3E38F5'}
+                                                                color='#fff'
+                                                                onClick={() => {
+                                                                    onOpen()
+                                                                    setKey(i)
+                                                                }}
+
+                                                                _hover={{ bg: '#3E38F5' }}
+                                                                _active={{
+                                                                    bg: '#3E38F5',
+                                                                    transform: 'scale(0.98)',
+                                                                }}
+                                                            >
+                                                                Detail
+                                                            </Button>
+                                                        </Td>
+                                                    </Tr>)
+                                            }
                                         </Tbody>
                                     </Table>
                                 </TableContainer>
@@ -211,28 +292,35 @@ const NegosiasiUser = () => {
                                             </Tr>
                                         </Thead>
                                         <Tbody>
-                                            <Tr>
-                                                <Td>Daeng Naba</Td>
-                                                <Td>32 tahun</Td>
-                                                <Td>0902900032</Td>
-                                                <Td>Jeneponto</Td>
-                                                <Td>-</Td>
-                                                <Td>December, 03 Agustus 2022</Td>
-                                                <Td>
-                                                    <Button
-                                                        bgColor={'#3E38F5'}
-                                                        color='#fff'
-                                                        onClick={onOpen}
-                                                        _hover={{ bg: '#3E38F5' }}
-                                                        _active={{
-                                                            bg: '#3E38F5',
-                                                            transform: 'scale(0.98)',
-                                                        }}
-                                                    >
-                                                        Info Pemesanan
-                                                    </Button>
-                                                </Td>
-                                            </Tr>
+                                            {
+                                                orders.map((order, i) =>
+                                                    <Tr key={order.id}>
+                                                        <Td>{order?.tukang?.nama}</Td>
+                                                        <Td>{new Date().getFullYear() - new Date(order?.tukang?.tanggalLahir).getFullYear()} tahun</Td>
+                                                        <Td>{order?.tukang?.nomorTelepon}</Td>
+                                                        <Td>{order?.tukang?.alamat}</Td>
+                                                        <Td>{order?.tukang?.keahlian}</Td>
+                                                        <Td>{order?.createdAt}</Td>
+                                                        <Td>
+                                                            <Button
+                                                                bgColor={'#3E38F5'}
+                                                                color='#fff'
+                                                                onClick={() => {
+                                                                    onOpen()
+                                                                    setKey(i)
+                                                                }}
+
+                                                                _hover={{ bg: '#3E38F5' }}
+                                                                _active={{
+                                                                    bg: '#3E38F5',
+                                                                    transform: 'scale(0.98)',
+                                                                }}
+                                                            >
+                                                                Detail
+                                                            </Button>
+                                                        </Td>
+                                                    </Tr>)
+                                            }
                                         </Tbody>
                                     </Table>
                                 </TableContainer>
@@ -252,28 +340,35 @@ const NegosiasiUser = () => {
                                             </Tr>
                                         </Thead>
                                         <Tbody>
-                                            <Tr>
-                                                <Td>Daeng Naba</Td>
-                                                <Td>32 tahun</Td>
-                                                <Td>0902900032</Td>
-                                                <Td>Jeneponto</Td>
-                                                <Td>-</Td>
-                                                <Td>December, 03 Agustus 2022</Td>
-                                                <Td>
-                                                    <Button
-                                                        bgColor={'#3E38F5'}
-                                                        color='#fff'
-                                                        onClick={onOpen}
-                                                        _hover={{ bg: '#3E38F5' }}
-                                                        _active={{
-                                                            bg: '#3E38F5',
-                                                            transform: 'scale(0.98)',
-                                                        }}
-                                                    >
-                                                        Info Pemesanan
-                                                    </Button>
-                                                </Td>
-                                            </Tr>
+                                            {
+                                                orders.map((order, i) =>
+                                                    <Tr key={order.id}>
+                                                        <Td>{order?.tukang?.nama}</Td>
+                                                        <Td>{new Date().getFullYear() - new Date(order?.tukang?.tanggalLahir).getFullYear()} tahun</Td>
+                                                        <Td>{order?.tukang?.nomorTelepon}</Td>
+                                                        <Td>{order?.tukang?.alamat}</Td>
+                                                        <Td>{order?.tukang?.keahlian}</Td>
+                                                        <Td>{order?.createdAt}</Td>
+                                                        <Td>
+                                                            <Button
+                                                                bgColor={'#3E38F5'}
+                                                                color='#fff'
+                                                                onClick={() => {
+                                                                    onOpen()
+                                                                    setKey(i)
+                                                                }}
+
+                                                                _hover={{ bg: '#3E38F5' }}
+                                                                _active={{
+                                                                    bg: '#3E38F5',
+                                                                    transform: 'scale(0.98)',
+                                                                }}
+                                                            >
+                                                                Detail
+                                                            </Button>
+                                                        </Td>
+                                                    </Tr>)
+                                            }
                                         </Tbody>
                                     </Table>
                                 </TableContainer>
