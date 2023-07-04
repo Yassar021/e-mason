@@ -27,7 +27,7 @@ const CardProjects = ({ image, project }) => {
                 </ModalContent>
             </Modal>
 
-            <Image onClick={onOpen} borderRadius={'8px'} width={'auto'} height='274px' src={image} alt='Portfolio Bangunan' />
+            <Image onClick={onOpen} borderRadius={'8px'} width={'100%'} height='274px' src={image} alt='Portfolio Bangunan' />
         </>
     )
 }
