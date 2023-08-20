@@ -35,7 +35,7 @@ const LayoutDashboardUser = ({ pageTitle, children, bgColor, color }) => {
   return user?.data?.type === "pengguna" ? (
     <>
       <Head>
-        <title>E-Mason App | {pageTitle}</title>
+        <title>{`E-Mason App | ${pageTitle}`}</title>
       </Head>
 
       <Box height={"auto"} bgColor={"#E9E8F9"} pb="40px">
