@@ -13,6 +13,7 @@ import {
   Stack,
   Text,
   VStack,
+  useCheckboxGroup,
   useToast,
 } from "@chakra-ui/react";
 import LayoutDashboardTukang from "../../layout/LayoutDashboardTukang";
@@ -27,6 +28,7 @@ const EditProfileTukang = () => {
   const toast = useToast();
   const ref = useRef();
   const [check, user] = authCheck();
+  const { value, getCheckboxProps } = useCheckboxGroup();
   const [field, setField] = useState({
     keahlian: "",
   });
@@ -38,6 +40,7 @@ const EditProfileTukang = () => {
       const updateUser = httpsCallable(functions, "updateUser");
       await updateUser({
         ...field,
+        kategoriKeahlian: value,
         id: user?.data?.id,
       });
       setLoading(false);
@@ -197,11 +200,35 @@ const EditProfileTukang = () => {
             />
           </FormControl>
           <FormControl>
-            <FormLabel>Kategori Pekerjaan :</FormLabel>
-            <Stack spacing={5} direction="row">
-              <Checkbox>Tukang Batu</Checkbox>
-              <Checkbox>Tukang Kayu</Checkbox>
-              <Checkbox>Tukang Cat</Checkbox>
+            <FormLabel>
+              Kategori Pekerjaan : <br /> Pilih 2-3 / lebih
+            </FormLabel>
+            <Stack spacing={5} direction={{ base: "column", xl: "row" }}>
+              <Checkbox {...getCheckboxProps({ value: "Tukang Batu" })}>
+                Tukang Batu
+              </Checkbox>
+              <Checkbox {...getCheckboxProps({ value: "Tukang Kayu" })}>
+                Tukang Kayu
+              </Checkbox>
+              <Checkbox {...getCheckboxProps({ value: "Tukang Cat" })}>
+                Tukang Cat
+              </Checkbox>
+              <Checkbox {...getCheckboxProps({ value: "Tukang Cor" })}>
+                Tukang Cor
+              </Checkbox>
+              <Checkbox {...getCheckboxProps({ value: "Tukang Besi" })}>
+                Tukang Besi
+              </Checkbox>
+              <Checkbox
+                {...getCheckboxProps({
+                  value: "Tukang Keramik (Lantai & Dinding)",
+                })}
+              >
+                Tukang Keramik (Lantai & Dinding)
+              </Checkbox>
+              <Checkbox {...getCheckboxProps({ value: "Tukang Atap" })}>
+                Tukang Atap
+              </Checkbox>
             </Stack>
           </FormControl>
           <FormControl>

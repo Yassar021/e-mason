@@ -71,7 +71,7 @@ const Home = () => {
         <Box onScroll={onScroll}>
           <VStack spacing="24px">
             <Text fontFamily={"Poppins"} fontSize="24px" fontWeight={"600"}>
-              Tukang Tersedia
+              Yuk, Cari Tukang sesuai Keahliannya!
             </Text>
             <Box
               textAlign={"center"}

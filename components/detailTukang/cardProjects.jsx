@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Center,
   Flex,
   Image,
   Modal,
@@ -33,8 +34,8 @@ const CardProjects = ({ image, project }) => {
                 src={image}
                 alt="Portfolio Bangunan"
               />
-              <Text>Tipe Bangunan : Ruko</Text>
-              <Text>Detail Pengerjaan : Pengecatan</Text>
+              <Text>Tipe Bangunan : {project?.detailBangunan}</Text>
+              <Text>Detail Pengerjaan : {project?.jenisKerjaan}</Text>
               <Text>Luas Bangunan : {project?.luasBangunan}</Text>
               <Text>Type Bangunan : {project?.typeBangunan}</Text>
               <Text>Kisaran Harga : Rp.{project?.harga}</Text>
@@ -51,6 +52,11 @@ const CardProjects = ({ image, project }) => {
       </Modal>
 
       <Box p={2} bgColor={"#fff"} borderRadius={"8px"}>
+        <Center textAlign={"center"}>
+          <Text fontSize={"16px"} fontWeight={"600"}>
+            {project?.jenisKerjaan}
+          </Text>
+        </Center>
         <Image
           onClick={onOpen}
           borderRadius={"8px"}

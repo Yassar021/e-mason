@@ -204,15 +204,15 @@ const PortofolioTukang = () => {
                 d="M12 6L12 18"
                 stroke="#CCD2E3"
                 stroke-width="2"
-                stroke-linecap="square"
-                stroke-linejoin="round"
+                strokeLinecap="square"
+                strokeLinejoin="round"
               />
               <path
                 d="M18 12L6 12"
                 stroke="#CCD2E3"
                 stroke-width="2"
-                stroke-linecap="square"
-                stroke-linejoin="round"
+                strokeLinecap="square"
+                strokeLinejoin="round"
               />
             </svg>
           }
@@ -231,6 +231,12 @@ const PortofolioTukang = () => {
                   required
                   placeholder="contoh: Pengerjaan Pengecatan 
                   "
+                  onChange={(e) =>
+                    setField((field) => ({
+                      ...field,
+                      jenisKerjaan: e.target.value,
+                    }))
+                  }
                 />
               </FormControl>
               <FormControl mt={4}>
@@ -275,6 +281,12 @@ const PortofolioTukang = () => {
                   required
                   placeholder="rumah tinggal, 
                   ruko, perkantoran, dll"
+                  onChange={(e) =>
+                    setField((field) => ({
+                      ...field,
+                      detailBangunan: e.target.value,
+                    }))
+                  }
                 />
               </FormControl>
               <FormControl mt={4}>

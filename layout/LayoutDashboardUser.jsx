@@ -158,7 +158,7 @@ const LayoutDashboardUser = ({ pageTitle, children, bgColor, color }) => {
             bgColor={"#ffff"}
             pt="28px"
             px={{ base: "4px", md: "57px" }}
-            width={{ base: "100%", lg: "700px", xl: "65%", "2xl": "100%" }}
+            width={{ base: "100%", lg: "700px", xl: "65%", "2xl": "75%" }}
             height="auto"
             borderRadius="8px"
           >

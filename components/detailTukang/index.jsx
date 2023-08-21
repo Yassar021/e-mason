@@ -30,6 +30,7 @@ import {
   Thead,
   Tr,
   VStack,
+  useCheckboxGroup,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -94,13 +95,7 @@ const DetailTukang = ({ user }) => {
   // console.log(projects)
 
   // send Pesanan
-  const [field, setField] = useState({
-    namaTukang: "",
-    usia: "",
-    nomorTelepon: "",
-    keahlian: "",
-    tanggalPesanan: "",
-  });
+  const [detailKerjaan, setDetailKerjaan] = useState("");
 
   const handlePesanan = async () => {
     setLoading(true);
@@ -109,6 +104,7 @@ const DetailTukang = ({ user }) => {
       const result = await createOrder({
         penggunaId: userLogin?.data?.id,
         tukangId: user?.id,
+        detailKerjaan: detailKerjaan,
         createdAt: new Date().toISOString(),
       });
       setLoading(false);
@@ -221,7 +217,13 @@ const DetailTukang = ({ user }) => {
                       </Text>
                     </Td>
                     <Td>
-                      <Badge colorScheme="blue">Tukang Cat</Badge>
+                      <Flex gap="4px">
+                        {user?.kategoriKeahlian?.map((item, i) => (
+                          <Badge key={i} colorScheme="blue">
+                            {item}
+                          </Badge>
+                        ))}
+                      </Flex>
                     </Td>
                   </Tr>
                   <Tr>
@@ -360,6 +362,26 @@ const DetailTukang = ({ user }) => {
                           size="lg"
                         />
                       </FormControl>
+
+                      <FormControl my={6}>
+                        <FormLabel
+                          fontSize={"16"}
+                          fontWeight="500"
+                          fontFamily={"Poppins"}
+                        >
+                          Pilih Jenis Keahlian yang anda butuhkan!
+                        </FormLabel>
+                        <Stack
+                          spacing={5}
+                          direction={{ base: "column", xl: "row" }}
+                        >
+                          {user?.kategoriKeahlian?.map((item, i) => (
+                            <Checkbox isChecked isDisabled key={i}>
+                              {item}
+                            </Checkbox>
+                          ))}
+                        </Stack>
+                      </FormControl>
                       <FormControl>
                         <FormLabel
                           fontSize={"16"}
@@ -368,7 +390,12 @@ const DetailTukang = ({ user }) => {
                         >
                           Detail Kerjaan
                         </FormLabel>
-                        <Input required size="lg" />
+                        <Input
+                          onChange={(e) => setDetailKerjaan(e.target.value)}
+                          required
+                          placeholder="Pengecatan kamar 2x3 meter"
+                          size="lg"
+                        />
                       </FormControl>
                     </ModalBody>
 
