@@ -1,9 +1,15 @@
+/* eslint-disable react/no-children-prop */
 import {
+  Avatar,
   Box,
   Button,
   FormControl,
   FormLabel,
+  Image,
+  Img,
   Input,
+  InputGroup,
+  InputLeftAddon,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -33,6 +39,7 @@ import { httpsCallable } from "firebase/functions";
 import functions from "../../utils/firebase/function";
 import { authCheck } from "../../utils/firebase/auth";
 import { useRouter } from "next/router";
+import { uploadFile } from "../../utils/firebase/storage";
 import moment from "moment/moment";
 
 const NegosiasiUser = () => {
@@ -44,6 +51,7 @@ const NegosiasiUser = () => {
   const router = useRouter();
   const [tabIndex, setTabIndex] = useState(0);
   const [status, setStatus] = useState("");
+  const [field, setField] = useState({});
 
   // set fetch orders
   const [_, user] = authCheck();
@@ -125,6 +133,10 @@ const NegosiasiUser = () => {
       await updateOrder({
         id: id,
         status: status,
+        progress: {
+          uangMuka: field.uangMuka,
+          gambar: field.gambar,
+        },
       });
       setLoading(false);
       toast({
@@ -135,7 +147,6 @@ const NegosiasiUser = () => {
         isClosable: true,
       });
       onClose();
-      router.reload();
     } catch (error) {
       toast({
         title: "Order gagal diupdate",
@@ -145,6 +156,32 @@ const NegosiasiUser = () => {
         isClosable: true,
       });
       setLoading(false);
+    }
+  };
+
+  const handleFile = async (e) => {
+    setLoading(true);
+    try {
+      const result = await uploadFile(e.target.files[0]);
+      setLoading(false);
+      setField((field) => ({
+        ...field,
+        gambar: `https://firebasestorage.googleapis.com/v0/b/emason-c2ba1.appspot.com/o/${result.metadata.name}?alt=media&token=bbec618f-de0c-40cb-ac94-91456bafe111`,
+      }));
+      toast({
+        title: "bukti uang muka berhasil diupload",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+    } catch (error) {
+      setLoading(false);
+      toast({
+        title: "bukti uang muka gagal diupload",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
     }
   };
 
@@ -197,11 +234,53 @@ const NegosiasiUser = () => {
                 <>
                   <FormControl isRequired>
                     <FormLabel>Upload Bukti Transfer Uang Muka (DP)</FormLabel>
+                    <Text fontWeight={"600"}>
+                      Nomor Rekening BRI a.n {orders[key]?.tukang?.namaRekening}{" "}
+                      : {orders[key]?.tukang?.noRekening}
+                    </Text>
                     <Input
+                      p={1}
+                      onChange={handleFile}
                       type="file"
                       accept="image/*"
-                      placeholder="bukti-transfer"
+                      placeholder="bukti-transfer-uang-muka"
                     />
+                  </FormControl>
+
+                  <FormControl isRequired>
+                    <FormLabel>Jumlah uang muka yang ditransfer</FormLabel>
+                    <InputGroup>
+                      <InputLeftAddon children={"Rp."} />
+                      <Input
+                        isRequired
+                        value={orders[key]?.progress?.uangMuka}
+                        type="number"
+                        onChange={(e) =>
+                          setField((field) => ({
+                            ...field,
+                            uangMuka: e.target.value,
+                          }))
+                        }
+                      />
+                    </InputGroup>
+                  </FormControl>
+                </>
+              )}
+
+              {status === "Selesai" && (
+                <>
+                  <FormControl isRequired>
+                    <FormLabel>
+                      Jumlah uang muka yang telah ditransfer
+                    </FormLabel>
+                    <InputGroup>
+                      <InputLeftAddon children={"Rp."} />
+                      <Input
+                        isDisabled
+                        defaultValue={orders[key]?.progress?.uangMuka}
+                        type="number"
+                      />
+                    </InputGroup>
                   </FormControl>
                 </>
               )}
@@ -210,12 +289,21 @@ const NegosiasiUser = () => {
           <ModalFooter>
             {status === "Diproses" && (
               <>
-                <Button
+                {/* <Button
                   isDisabled={loading}
                   onClick={() => handleUpdate(orders[key]?.id, "Dibatalkan")}
                   colorScheme="red"
                 >
                   Batalkan
+                </Button> */}
+
+                <Button
+                  ml="4px"
+                  isDisabled={loading}
+                  onClick={() => handleUpdate(orders[key]?.id, "Diproses")}
+                  colorScheme="green"
+                >
+                  Update
                 </Button>
               </>
             )}
@@ -228,7 +316,7 @@ const NegosiasiUser = () => {
             >
               Hubungi
             </Button>
-            <Button ml="4px" onClick={onClose} colorScheme="blue">
+            <Button onClick={onClose} colorScheme="blue">
               Tutup
             </Button>
           </ModalFooter>
@@ -250,6 +338,7 @@ const NegosiasiUser = () => {
               <Tab>Dibatalkan</Tab>
             </TabList>
             <TabPanels>
+              {/* Daftar Pemesanan */}
               <TabPanel>
                 <TableContainer>
                   <Table variant="simple">
@@ -304,6 +393,7 @@ const NegosiasiUser = () => {
                   </Table>
                 </TableContainer>
               </TabPanel>
+              {/* Diproses */}
               <TabPanel>
                 <TableContainer>
                   <Table variant="simple">
@@ -358,6 +448,7 @@ const NegosiasiUser = () => {
                   </Table>
                 </TableContainer>
               </TabPanel>
+              {/* Selesai */}
               <TabPanel>
                 <TableContainer>
                   <Table variant="simple">
@@ -366,8 +457,6 @@ const NegosiasiUser = () => {
                         <Th>Nama Tukang</Th>
                         <Th>Usia</Th>
                         <Th>Telp</Th>
-                        <Th>Alamat</Th>
-                        <Th>Keahlian</Th>
                         <Th>Tanggal</Th>
                         <Th>Action</Th>
                       </Tr>
@@ -384,8 +473,6 @@ const NegosiasiUser = () => {
                             tahun
                           </Td>
                           <Td>{order?.tukang?.nomorTelepon}</Td>
-                          <Td>{order?.tukang?.alamat}</Td>
-                          <Td>{order?.tukang?.keahlian}</Td>
                           <Td>
                             {moment(order?.createdAt).format("DD-MMMM-YYYY")}
                           </Td>
@@ -412,6 +499,7 @@ const NegosiasiUser = () => {
                   </Table>
                 </TableContainer>
               </TabPanel>
+              {/* Dibatalkan */}
               <TabPanel>
                 <TableContainer>
                   <Table variant="simple">

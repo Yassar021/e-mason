@@ -1,4 +1,6 @@
+/* eslint-disable react/no-children-prop */
 import {
+  Avatar,
   Box,
   Button,
   Checkbox,
@@ -7,6 +9,8 @@ import {
   FormLabel,
   HStack,
   Input,
+  InputGroup,
+  InputLeftAddon,
   Link,
   Modal,
   ModalBody,
@@ -197,6 +201,21 @@ const DashboardTukang = () => {
                   isDisabled
                 />
               </FormControl>
+
+              {status === "Diproses" && (
+                <>
+                  <FormControl isRequired>
+                    <FormLabel>Jumlah uang muka telah ditransfer</FormLabel>
+                    <InputGroup>
+                      <InputLeftAddon children={"Rp."} />
+                      <Input
+                        isDisabled
+                        defaultValue={orders[key]?.progress?.uangMuka}
+                      />
+                    </InputGroup>
+                  </FormControl>
+                </>
+              )}
             </Stack>
           </ModalBody>
           <ModalFooter>
@@ -349,7 +368,7 @@ const DashboardTukang = () => {
                         <Th>Nama Pengguna</Th>
                         <Th>Usia</Th>
                         <Th>Telp</Th>
-                        <Th>Alamat</Th>
+                        <Th>Bukti Transfer Uang Muka</Th>
                         <Th>Tanggal</Th>
                         <Th>Action</Th>
                       </Tr>
@@ -366,7 +385,15 @@ const DashboardTukang = () => {
                             tahun
                           </Td>
                           <Td>{order?.pengguna?.nomorTelepon}</Td>
-                          <Td>{order?.pengguna?.alamat}</Td>
+                          <Td>
+                            <Avatar
+                              borderRadius="none"
+                              height="140px"
+                              width="100%"
+                              name="uang-dp"
+                              src={orders[key]?.progress?.gambar}
+                            />
+                          </Td>
                           <Td>
                             {moment(order?.createdAt).format("DD-MMMM-YYYY")}
                           </Td>

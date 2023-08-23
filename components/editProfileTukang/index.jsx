@@ -242,6 +242,32 @@ const EditProfileTukang = () => {
               placeholder="Keahlian"
             />
           </FormControl>
+          <FormControl>
+            <FormLabel>Atas Nama di Rekening BRI : </FormLabel>
+            <Input
+              required
+              type="text"
+              defaultValue={user?.data?.namaRekening}
+              onChange={(e) =>
+                setField((field) => ({
+                  ...field,
+                  namaRekening: e.target.value,
+                }))
+              }
+              placeholder="Masukkan nama dinomor rekening"
+            />
+
+            <FormLabel mt="25px">Nomor Rekening BRI : </FormLabel>
+            <Input
+              required
+              type="number"
+              defaultValue={user?.data?.noRekening}
+              onChange={(e) =>
+                setField((field) => ({ ...field, noRekening: e.target.value }))
+              }
+              placeholder="Masukkan nomor rekening"
+            />
+          </FormControl>
         </VStack>
 
         <Flex
