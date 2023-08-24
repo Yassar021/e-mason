@@ -135,7 +135,10 @@ const DashboardTukang = () => {
       await updateOrder({
         id: id,
         status: status,
-        progress: {},
+        progress: {
+          gambar: orders[key]?.progress?.gambar,
+          uangMuka: orders[key]?.progress?.uangMuka,
+        },
       });
       setLoading(false);
       toast({
@@ -144,6 +147,7 @@ const DashboardTukang = () => {
         status: "success",
         duration: 9000,
         isClosable: true,
+        position: "top",
       });
       onClose();
       router.reload();
@@ -154,6 +158,7 @@ const DashboardTukang = () => {
         status: "error",
         duration: 9000,
         isClosable: true,
+        position: "top",
       });
       setLoading(false);
     }
@@ -216,6 +221,25 @@ const DashboardTukang = () => {
                   </FormControl>
                 </>
               )}
+
+              {status === "Selesai" && (
+                <>
+                  <FormControl isRequired>
+                    <FormLabel>
+                      Jumlah uang muka yang telah ditransfer
+                    </FormLabel>
+                    <InputGroup>
+                      <InputLeftAddon children={"Rp."} />
+                      <Input
+                        fontWeight={"600"}
+                        isDisabled
+                        value={orders[key]?.progress?.uangMuka}
+                        type="number"
+                      />
+                    </InputGroup>
+                  </FormControl>
+                </>
+              )}
             </Stack>
           </ModalBody>
           <ModalFooter>
@@ -267,32 +291,32 @@ const DashboardTukang = () => {
       </Modal>
 
       <LayoutDashboardTukang pageTitle={"Dashboard Tukang"}>
-        <Stack direction={"column"} spacing={"10px"}>
-          <HStack spacing="20px">
-            <Text fontSize={"16px"} fontWeight={"600"}>
-              Nama :
-            </Text>
-            <Text>{user?.data?.nama}</Text>
-          </HStack>
-          <HStack spacing="20px">
-            <Text fontSize={"16px"} fontWeight={"600"}>
-              Kategori Keahlian :
-            </Text>
-            <Flex gap="6px">
-              {user?.data?.kategoriKeahlian?.map((item, i) => (
-                <Checkbox isChecked isDisabled key={i}>
-                  {item}
-                </Checkbox>
-              ))}
-            </Flex>
-          </HStack>
-          <HStack spacing="20px">
-            <Text fontSize={"16px"} fontWeight={"600"}>
-              Detail Keahlian :
-            </Text>
-            <Text>{user?.data?.keahlian}</Text>
-          </HStack>
-        </Stack>
+        <TableContainer>
+          <Table variant="striped" colorScheme="blue">
+            <Tbody>
+              <Tr>
+                <Td>Nama</Td>
+                <Td>{user?.data?.nama}</Td>
+              </Tr>
+              <Tr>
+                <Td>Kategori Keahlian</Td>
+                <Td>
+                  <Flex gap="6px">
+                    {user?.data?.kategoriKeahlian?.map((item, i) => (
+                      <Checkbox isChecked isDisabled key={i}>
+                        {item}
+                      </Checkbox>
+                    ))}
+                  </Flex>
+                </Td>
+              </Tr>
+              <Tr>
+                <Td>Detail Keahlian</Td>
+                <Td>{user?.data?.keahlian}</Td>
+              </Tr>
+            </Tbody>
+          </Table>
+        </TableContainer>
         <Box>
           <Tabs
             isLazy
@@ -388,8 +412,8 @@ const DashboardTukang = () => {
                           <Td>
                             <Avatar
                               borderRadius="none"
-                              height="140px"
-                              width="100%"
+                              height="100%"
+                              width="120px"
                               name="uang-dp"
                               src={orders[key]?.progress?.gambar}
                             />
@@ -428,7 +452,7 @@ const DashboardTukang = () => {
                         <Th>Nama Pengguna</Th>
                         <Th>Usia</Th>
                         <Th>Telp</Th>
-                        <Th>Alamat</Th>
+                        <Th>Bukti Transfer Uang Muka</Th>
                         <Th>Tanggal</Th>
                         <Th>Action</Th>
                       </Tr>
@@ -445,7 +469,15 @@ const DashboardTukang = () => {
                             tahun
                           </Td>
                           <Td>{order?.pengguna?.nomorTelepon}</Td>
-                          <Td>{order?.pengguna?.alamat}</Td>
+                          <Td>
+                            <Avatar
+                              borderRadius="none"
+                              height="140px"
+                              width="100%"
+                              name="uang-dp"
+                              src={orders[key]?.progress?.gambar}
+                            />
+                          </Td>
                           <Td>
                             {moment(order?.createdAt).format("DD-MMMM-YYYY")}
                           </Td>

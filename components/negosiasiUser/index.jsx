@@ -145,6 +145,7 @@ const NegosiasiUser = () => {
         status: "success",
         duration: 9000,
         isClosable: true,
+        position: "top",
       });
       onClose();
     } catch (error) {
@@ -154,6 +155,7 @@ const NegosiasiUser = () => {
         status: "error",
         duration: 9000,
         isClosable: true,
+        position: "top",
       });
       setLoading(false);
     }
@@ -173,6 +175,7 @@ const NegosiasiUser = () => {
         status: "success",
         duration: 9000,
         isClosable: true,
+        position: "top",
       });
     } catch (error) {
       setLoading(false);
@@ -181,6 +184,7 @@ const NegosiasiUser = () => {
         status: "error",
         duration: 9000,
         isClosable: true,
+        position: "top",
       });
     }
   };
@@ -253,7 +257,7 @@ const NegosiasiUser = () => {
                       <InputLeftAddon children={"Rp."} />
                       <Input
                         isRequired
-                        value={orders[key]?.progress?.uangMuka}
+                        defaultValue={orders[key]?.progress?.uangMuka}
                         type="number"
                         onChange={(e) =>
                           setField((field) => ({
@@ -277,7 +281,7 @@ const NegosiasiUser = () => {
                       <InputLeftAddon children={"Rp."} />
                       <Input
                         isDisabled
-                        defaultValue={orders[key]?.progress?.uangMuka}
+                        value={orders[key]?.progress?.uangMuka}
                         type="number"
                       />
                     </InputGroup>
@@ -402,8 +406,6 @@ const NegosiasiUser = () => {
                         <Th>Nama Tukang</Th>
                         <Th>Usia</Th>
                         <Th>Telp</Th>
-                        <Th>Alamat</Th>
-                        <Th>Keahlian</Th>
                         <Th>Tanggal</Th>
                         <Th>Action</Th>
                       </Tr>
@@ -420,8 +422,6 @@ const NegosiasiUser = () => {
                             tahun
                           </Td>
                           <Td>{order?.tukang?.nomorTelepon}</Td>
-                          <Td>{order?.tukang?.alamat}</Td>
-                          <Td>{order?.tukang?.keahlian}</Td>
                           <Td>
                             {moment(order?.createdAt).format("DD-MMMM-YYYY")}
                           </Td>

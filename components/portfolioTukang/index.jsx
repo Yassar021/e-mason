@@ -60,6 +60,7 @@ const PortofolioTukang = () => {
         status: "success",
         duration: 9000,
         isClosable: true,
+        position: "top",
       });
     } catch (error) {
       setLoading(false);
@@ -68,6 +69,7 @@ const PortofolioTukang = () => {
         status: "error",
         duration: 9000,
         isClosable: true,
+        position: "top",
       });
     }
   };
@@ -88,6 +90,7 @@ const PortofolioTukang = () => {
         status: "success",
         duration: 9000,
         isClosable: true,
+        position: "top",
       });
       onClose();
       setProjects([
@@ -106,6 +109,7 @@ const PortofolioTukang = () => {
         status: "error",
         duration: 9000,
         isClosable: true,
+        position: "top",
       });
     }
   };
@@ -121,6 +125,7 @@ const PortofolioTukang = () => {
         status: "success",
         duration: 9000,
         isClosable: true,
+        position: "top",
       });
       const data = projects.filter((project) => project.id !== id);
       setProjects(data);
@@ -131,6 +136,7 @@ const PortofolioTukang = () => {
         status: "error",
         duration: 9000,
         isClosable: true,
+        position: "top",
       });
     }
   };

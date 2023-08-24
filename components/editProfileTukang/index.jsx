@@ -50,6 +50,7 @@ const EditProfileTukang = () => {
         status: "success",
         duration: 9000,
         isClosable: true,
+        position: "top",
       });
     } catch (error) {
       toast({
@@ -58,6 +59,7 @@ const EditProfileTukang = () => {
         status: "error",
         duration: 9000,
         isClosable: true,
+        position: "top",
       });
       setLoading(false);
     }

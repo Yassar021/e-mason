@@ -52,7 +52,7 @@ const CardProjects = ({ image, project }) => {
       </Modal>
 
       <Box p={2} bgColor={"#fff"} borderRadius={"8px"}>
-        <Center textAlign={"center"}>
+        <Center textAlign={"center"} mb={"10px"}>
           <Text fontSize={"16px"} fontWeight={"600"}>
             {project?.jenisKerjaan}
           </Text>

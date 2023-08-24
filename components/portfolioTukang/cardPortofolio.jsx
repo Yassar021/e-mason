@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Center,
   Flex,
   Image,
   Modal,
@@ -45,12 +46,15 @@ const CardPortofolio = ({ image, project, handleDelete, checkDelete }) => {
       </Modal>
       <Box
         width={{ lg: "300px", xl: "auto" }}
-        height="300px"
+        height="320px"
         shadow={"xl"}
         py="20px"
         px="40px"
         borderRadius={"10px"}
       >
+        <Center mb="10px" fontWeight={"600"}>
+          <Text>{project?.jenisKerjaan}</Text>
+        </Center>
         <Image
           mx="auto"
           mb="12px"
