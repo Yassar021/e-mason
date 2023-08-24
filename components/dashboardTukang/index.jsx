@@ -150,7 +150,6 @@ const DashboardTukang = () => {
         position: "top",
       });
       onClose();
-      router.reload();
     } catch (error) {
       toast({
         title: "Order gagal diupdate",
@@ -162,6 +161,13 @@ const DashboardTukang = () => {
       });
       setLoading(false);
     }
+  };
+
+  const rupiah = (number) => {
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+    }).format(number);
   };
 
   return (
@@ -214,8 +220,9 @@ const DashboardTukang = () => {
                     <InputGroup>
                       <InputLeftAddon children={"Rp."} />
                       <Input
+                        fontWeight={"600"}
                         isDisabled
-                        defaultValue={orders[key]?.progress?.uangMuka}
+                        defaultValue={rupiah(orders[key]?.progress?.uangMuka)}
                       />
                     </InputGroup>
                   </FormControl>
@@ -233,8 +240,7 @@ const DashboardTukang = () => {
                       <Input
                         fontWeight={"600"}
                         isDisabled
-                        value={orders[key]?.progress?.uangMuka}
-                        type="number"
+                        defaultValue={rupiah(orders[key]?.progress?.uangMuka)}
                       />
                     </InputGroup>
                   </FormControl>
@@ -472,8 +478,8 @@ const DashboardTukang = () => {
                           <Td>
                             <Avatar
                               borderRadius="none"
-                              height="140px"
-                              width="100%"
+                              height="100%"
+                              width="120px"
                               name="uang-dp"
                               src={orders[key]?.progress?.gambar}
                             />
