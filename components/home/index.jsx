@@ -37,7 +37,7 @@ const Home = () => {
       const getUsers = httpsCallable(functions, "getUsers");
       const response = await getUsers({
         page: currPage,
-        limit: 100,
+        limit: 10,
         kategoriKeahlian,
       });
       if (!response.data.data.length) {
