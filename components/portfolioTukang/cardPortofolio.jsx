@@ -18,7 +18,12 @@ import {
 
 const CardPortofolio = ({ image, project, handleDelete, checkDelete }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const rupiah = (number) => {
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+    }).format(number);
+  };
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -32,7 +37,7 @@ const CardPortofolio = ({ image, project, handleDelete, checkDelete }) => {
               <Text>Detail Bangunan : {project?.detailBangunan}</Text>
               <Text>Jenis Kerjaan : {project?.jenisKerjaan}</Text>
               <Text>Type Bangunan : {project?.typeBangunan}</Text>
-              <Text>Kisaran Harga : Rp.{project?.harga}</Text>
+              <Text>Kisaran Harga : {rupiah(project?.harga)}</Text>
               <Text>Estimasi Waktu (hari) : {project?.estimasi}</Text>
             </Flex>
           </ModalBody>
