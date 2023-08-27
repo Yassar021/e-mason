@@ -3,6 +3,8 @@ import {
   Box,
   Checkbox,
   Flex,
+  Radio,
+  RadioGroup,
   SimpleGrid,
   Stack,
   Text,
@@ -19,6 +21,7 @@ const Home = () => {
   const [currPage, setCurrPage] = useState(1); // storing current page number
   const [prevPage, setPrevPage] = useState(0); // storing prev page number
   const [wasLastList, setWasLastList] = useState(false);
+  const [kategoriKeahlian, setKategoriKeahlian] = useState("");
   const listInnerRef = useRef();
 
   const onScroll = () => {
@@ -35,6 +38,7 @@ const Home = () => {
       const response = await getUsers({
         page: currPage,
         limit: 100,
+        kategoriKeahlian,
       });
       if (!response.data.data.length) {
         setWasLastList(true);
@@ -46,7 +50,7 @@ const Home = () => {
     if (!wasLastList && prevPage !== currPage) {
       fetchData();
     }
-  }, [currPage, wasLastList, prevPage, users]);
+  }, [currPage, wasLastList, prevPage, users, kategoriKeahlian]);
 
   useEffect(() => {
     function watchScroll() {
@@ -57,6 +61,15 @@ const Home = () => {
       window.removeEventListener("scroll", onScroll);
     };
   }, []);
+
+  const chooseKategori = (e) => {
+    setCurrPage(1);
+    setWasLastList(false);
+    setUsers([]);
+    setCurrPage(1);
+    setPrevPage(0);
+    setKategoriKeahlian(e);
+  };
 
   return (
     <LayoutHomePage pageTitle={"Home"}>
@@ -87,17 +100,18 @@ const Home = () => {
               >
                 Filter Pencarian Tukang
               </Text>
-              <Stack spacing={5} direction="row">
-                <Checkbox>
-                  <Badge colorScheme="blue">Tukang Batu</Badge>
-                </Checkbox>
-                <Checkbox>
-                  <Badge colorScheme="blue">Tukang Kayu</Badge>
-                </Checkbox>
-                <Checkbox>
-                  <Badge colorScheme="blue">Tukang Cat</Badge>
-                </Checkbox>
-              </Stack>
+              <RadioGroup onChange={chooseKategori} value={kategoriKeahlian}>
+                <Stack direction={{ base: "column", md: "row" }}>
+                  <Radio value="Tukang Batu">Tukang Batu</Radio>
+                  <Radio value="Tukang Kayu">Tukang Kayu</Radio>
+                  <Radio value="Tukang Cat">Tukang Cat</Radio>
+                  <Radio value="Tukang Cor">Tukang Cor</Radio>
+                  <Radio value="Tukang Besi">Tukang Besi</Radio>
+                  <Radio value="Tukang Keramik (Lantai & Dinding)">
+                    Tukang Keramik (Lantai & Dinding)
+                  </Radio>
+                </Stack>
+              </RadioGroup>
             </Box>
             <SimpleGrid
               ref={listInnerRef}
