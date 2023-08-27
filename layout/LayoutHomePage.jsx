@@ -20,7 +20,7 @@ const LayoutHomePage = ({ pageTitle, children }) => {
         <title>{`E-Mason App | ${pageTitle}`}</title>
       </Head>
 
-      <Box height={"100%"} bgColor={"#E9E8F9"} pb="200px">
+      <Box height={"auto"} bgColor={"#E9E8F9"} pb="200px">
         <Navbar user={user} />
         <Box
           mt="30px"

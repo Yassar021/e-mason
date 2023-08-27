@@ -218,7 +218,7 @@ const DashboardTukang = () => {
                   <FormControl isRequired>
                     <FormLabel>Jumlah uang muka telah ditransfer</FormLabel>
                     <InputGroup>
-                      <InputLeftAddon children={"Rp."} />
+                      {/* <InputLeftAddon children={"Rp."} /> */}
                       <Input
                         fontWeight={"600"}
                         isDisabled
@@ -236,7 +236,7 @@ const DashboardTukang = () => {
                       Jumlah uang muka yang telah ditransfer
                     </FormLabel>
                     <InputGroup>
-                      <InputLeftAddon children={"Rp."} />
+                      {/* <InputLeftAddon children={"Rp."} /> */}
                       <Input
                         fontWeight={"600"}
                         isDisabled

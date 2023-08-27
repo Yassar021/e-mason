@@ -34,7 +34,7 @@ const Home = () => {
       const getUsers = httpsCallable(functions, "getUsers");
       const response = await getUsers({
         page: currPage,
-        limit: 4,
+        limit: 100,
       });
       if (!response.data.data.length) {
         setWasLastList(true);
