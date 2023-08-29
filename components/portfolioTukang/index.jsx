@@ -209,14 +209,14 @@ const PortofolioTukang = () => {
               <path
                 d="M12 6L12 18"
                 stroke="#CCD2E3"
-                stroke-width="2"
+                strokeWidth="2"
                 strokeLinecap="square"
                 strokeLinejoin="round"
               />
               <path
                 d="M18 12L6 12"
                 stroke="#CCD2E3"
-                stroke-width="2"
+                strokeWidth="2"
                 strokeLinecap="square"
                 strokeLinejoin="round"
               />

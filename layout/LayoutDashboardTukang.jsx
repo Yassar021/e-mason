@@ -213,6 +213,7 @@ const LayoutDashboardTukang = ({ pageTitle, children, bgColor, color }) => {
           </Box>
           <Box
             mt="40px"
+            mx="10px"
             bgColor={"#ffff"}
             py="28px"
             px={{ base: "4px", md: "57px" }}

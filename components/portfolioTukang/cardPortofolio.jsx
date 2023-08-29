@@ -52,7 +52,7 @@ const CardPortofolio = ({ image, project, handleDelete, checkDelete }) => {
       <Box
         width={{ lg: "300px", xl: "auto" }}
         height="320px"
-        shadow={"xl"}
+        shadow={"lg"}
         py="20px"
         px="40px"
         borderRadius={"10px"}

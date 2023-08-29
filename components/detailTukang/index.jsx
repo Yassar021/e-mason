@@ -137,20 +137,20 @@ const DetailTukang = ({ user }) => {
       <LayoutHomePage pageTitle={"Detail Tukang"} onScroll={onScroll}>
         <Flex
           direction={{ base: "column", md: "column", lg: "row", xl: "row" }}
-          gap={{ lg: "20px", xl: "60px" }}
+          gap={{ base: "20px", lg: "20px", xl: "60px" }}
         >
           <Img
             borderRadius={"8px"}
             border="2px solid #3E38F5"
             src={user?.avatar}
-            width={"auto"}
+            width={"100%"}
             height="253px"
             alt="Profile Tukang"
           />
           <Box
             borderRadius={"8px"}
             bgColor="#fff"
-            width="50%"
+            width={{ base: "100%", lg: "50%" }}
             height="336px"
             px="24px"
             py="12px"
