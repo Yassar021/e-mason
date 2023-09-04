@@ -47,7 +47,7 @@ const Navbar = ({ user }) => {
               fontWeight="700"
               fontFamily={"Poppins"}
             >
-              Negosiasi
+              {user?.data?.nama}
             </Text>
           </Link>
 

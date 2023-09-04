@@ -107,7 +107,7 @@ const AuthLogin = () => {
               pr="4.5rem"
               type={show ? "text" : "password"}
               size={{ base: "md", md: "md", lg: "lg" }}
-              placeholder="Enter password"
+              placeholder="masukkan password anda"
               required
               onChange={(e) =>
                 setField((field) => ({ ...field, password: e.target.value }))

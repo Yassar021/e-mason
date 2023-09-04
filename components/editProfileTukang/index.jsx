@@ -245,7 +245,10 @@ const EditProfileTukang = () => {
             />
           </FormControl>
           <FormControl>
-            <FormLabel>Atas Nama di Rekening BRI : </FormLabel>
+            <FormLabel>
+              Nama Pemilik Rekening (BRI, BNI, BCA, BSI, Mandiri, Bank
+              Sulselbar){" "}
+            </FormLabel>
             <Input
               required
               type="text"
@@ -256,10 +259,10 @@ const EditProfileTukang = () => {
                   namaRekening: e.target.value,
                 }))
               }
-              placeholder="Masukkan nama dinomor rekening"
+              placeholder="nama pemilik rekening"
             />
 
-            <FormLabel mt="25px">Nomor Rekening BRI : </FormLabel>
+            <FormLabel mt="25px">Nomor Rekening </FormLabel>
             <Input
               required
               type="number"
@@ -267,7 +270,7 @@ const EditProfileTukang = () => {
               onChange={(e) =>
                 setField((field) => ({ ...field, noRekening: e.target.value }))
               }
-              placeholder="Masukkan nomor rekening"
+              placeholder="contoh: 1203123012"
             />
           </FormControl>
         </VStack>

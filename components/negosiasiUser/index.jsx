@@ -239,8 +239,8 @@ const NegosiasiUser = () => {
                   <FormControl isRequired>
                     <FormLabel>Upload Bukti Transfer Uang Muka (DP)</FormLabel>
                     <Text fontWeight={"600"}>
-                      Nomor Rekening BRI a.n {orders[key]?.tukang?.namaRekening}{" "}
-                      : {orders[key]?.tukang?.noRekening}
+                      Nomor Rekening a.n {orders[key]?.tukang?.namaRekening} :{" "}
+                      {orders[key]?.tukang?.noRekening}
                     </Text>
                     <Input
                       p={1}
@@ -352,7 +352,6 @@ const NegosiasiUser = () => {
                         <Th>Usia</Th>
                         <Th>Telp</Th>
                         <Th>Alamat</Th>
-                        <Th>Keahlian</Th>
                         <Th>Tanggal</Th>
                         <Th>Action</Th>
                       </Tr>
@@ -370,7 +369,6 @@ const NegosiasiUser = () => {
                           </Td>
                           <Td>{order?.tukang?.nomorTelepon}</Td>
                           <Td>{order?.tukang?.alamat}</Td>
-                          <Td>{order?.tukang?.keahlian}</Td>
                           <Td>
                             {moment(order?.createdAt).format("DD-MMMM-YYYY")}
                           </Td>
