@@ -5,6 +5,10 @@
 /.pnp
 .pnp.js
 
+# firebase
+.firebase/*
+
+
 # testing
 /coverage
 
@@ -21,6 +25,7 @@
 
 # debug
 npm-debug.log*
+firebase-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
@@ -34,5 +39,3 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-.firebase

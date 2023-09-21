@@ -29,6 +29,7 @@ const Home = () => {
     "Tukang Cor",
     "Tukang Besi",
     "Tukang Keramik (Lantai & Dinding)",
+    "Tukang Atap",
   ]);
   const listInnerRef = useRef();
 
@@ -113,12 +114,22 @@ const Home = () => {
                 colorScheme="blue"
                 value={kategoriKeahlian}
               >
-                <Stack spacing={4} direction={["column", "row"]}>
+                <Stack
+                  spacing={{ base: "10px", md: "10px", lg: "4px", xl: "12px" }}
+                  direction={{
+                    base: "column",
+                    md: "column",
+                    lg: "row",
+                    xl: "row",
+                  }}
+                  textAlign={"left"}
+                >
                   <Checkbox value="Tukang Batu">Tukang Batu</Checkbox>
                   <Checkbox value="Tukang Kayu">Tukang Kayu</Checkbox>
                   <Checkbox value="Tukang Cat">Tukang Cat</Checkbox>
                   <Checkbox value="Tukang Cor">Tukang Cor</Checkbox>
                   <Checkbox value="Tukang Besi">Tukang Besi</Checkbox>
+                  <Checkbox value="Tukang Atap">Tukang Atap</Checkbox>
                   <Checkbox value="Tukang Keramik (Lantai & Dinding)">
                     Tukang Keramik (Lantai & Dinding)
                   </Checkbox>
