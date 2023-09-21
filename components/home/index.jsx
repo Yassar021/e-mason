@@ -2,6 +2,7 @@ import {
   Badge,
   Box,
   Checkbox,
+  CheckboxGroup,
   Flex,
   Radio,
   RadioGroup,
@@ -21,7 +22,14 @@ const Home = () => {
   const [currPage, setCurrPage] = useState(1); // storing current page number
   const [prevPage, setPrevPage] = useState(0); // storing prev page number
   const [wasLastList, setWasLastList] = useState(false);
-  const [kategoriKeahlian, setKategoriKeahlian] = useState("");
+  const [kategoriKeahlian, setKategoriKeahlian] = useState([
+    "Tukang Batu",
+    "Tukang Kayu",
+    "Tukang Cat",
+    "Tukang Cor",
+    "Tukang Besi",
+    "Tukang Keramik (Lantai & Dinding)",
+  ]);
   const listInnerRef = useRef();
 
   const onScroll = () => {
@@ -100,18 +108,22 @@ const Home = () => {
               >
                 Filter Pencarian Tukang
               </Text>
-              <RadioGroup onChange={chooseKategori} value={kategoriKeahlian}>
-                <Stack direction={{ base: "column", md: "row" }}>
-                  <Radio value="Tukang Batu">Tukang Batu</Radio>
-                  <Radio value="Tukang Kayu">Tukang Kayu</Radio>
-                  <Radio value="Tukang Cat">Tukang Cat</Radio>
-                  <Radio value="Tukang Cor">Tukang Cor</Radio>
-                  <Radio value="Tukang Besi">Tukang Besi</Radio>
-                  <Radio value="Tukang Keramik (Lantai & Dinding)">
+              <CheckboxGroup
+                onChange={chooseKategori}
+                colorScheme="blue"
+                value={kategoriKeahlian}
+              >
+                <Stack spacing={4} direction={["column", "row"]}>
+                  <Checkbox value="Tukang Batu">Tukang Batu</Checkbox>
+                  <Checkbox value="Tukang Kayu">Tukang Kayu</Checkbox>
+                  <Checkbox value="Tukang Cat">Tukang Cat</Checkbox>
+                  <Checkbox value="Tukang Cor">Tukang Cor</Checkbox>
+                  <Checkbox value="Tukang Besi">Tukang Besi</Checkbox>
+                  <Checkbox value="Tukang Keramik (Lantai & Dinding)">
                     Tukang Keramik (Lantai & Dinding)
-                  </Radio>
+                  </Checkbox>
                 </Stack>
-              </RadioGroup>
+              </CheckboxGroup>
             </Box>
             <SimpleGrid
               ref={listInnerRef}
