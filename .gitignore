@@ -8,6 +8,8 @@
 # firebase
 .firebase
 
+# vscode
+.vscode
 
 # testing
 /coverage
