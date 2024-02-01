@@ -60,7 +60,7 @@ const AuthLogin = () => {
     <LayoutAuth pageTitle={"Login"}>
       <Box as="form" onSubmit={handleLogin}>
         <Center>
-          <Stack>
+          <VStack>
             <Text fontSize={"40px"} fontWeight="500" fontFamily={"Poppins"}>
               Login
             </Text>
@@ -70,9 +70,9 @@ const AuthLogin = () => {
               fontFamily={"Poppins"}
               pb="35px"
             >
-              Hi, Selamat Datang
+              Haloooo, Selamat Datang
             </Text>
-          </Stack>
+          </VStack>
         </Center>
 
         <VStack spacing={"10px"} alignItems="baseline">

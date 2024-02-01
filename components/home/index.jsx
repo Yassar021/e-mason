@@ -82,7 +82,7 @@ const Home = () => {
 
   return (
     <LayoutHomePage pageTitle={"Home"}>
-      <Flex direction={"column"} gap="40px" textAlign={"left"}>
+      <Flex direction={"column"} gap="40px">
         <Box
           height={"450px"}
           bgImage="/mason.jpg"

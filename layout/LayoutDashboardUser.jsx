@@ -2,6 +2,7 @@ import {
   Avatar,
   Box,
   Button,
+  CircularProgress,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
@@ -24,7 +25,6 @@ import { useEffect, useRef } from "react";
 import Navbar from "../components/navbar";
 import { useRouter } from "next/router";
 import { authCheck } from "../utils/firebase/auth";
-import ErrorPage from "next/error";
 
 const LayoutDashboardUser = ({ pageTitle, children, bgColor, color }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -334,7 +334,9 @@ const LayoutDashboardUser = ({ pageTitle, children, bgColor, color }) => {
       </Box>
     </>
   ) : (
-    <ErrorPage statusCode={413} />
+    <Flex align="center" h="100vh" justify="center" w="full">
+      <CircularProgress color="black" />
+    </Flex>
   );
 };
 

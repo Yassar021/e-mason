@@ -2,6 +2,8 @@ import {
   Avatar,
   Box,
   Button,
+  Center,
+  CircularProgress,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
@@ -23,7 +25,6 @@ import Image from "next/image";
 import { useRef } from "react";
 import Navbar from "../components/navbar";
 import { authCheck } from "../utils/firebase/auth";
-import ErrorPage from "next/error";
 
 const LayoutDashboardTukang = ({ pageTitle, children, bgColor, color }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -456,7 +457,9 @@ const LayoutDashboardTukang = ({ pageTitle, children, bgColor, color }) => {
       </Box>
     </>
   ) : (
-    <ErrorPage statusCode={413} />
+    <Flex align="center" h="100vh" justify="center" w="full">
+      <CircularProgress color="black" />
+    </Flex>
   );
 };
 

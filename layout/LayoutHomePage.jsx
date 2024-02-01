@@ -1,5 +1,6 @@
 import {
   Box,
+  CircularProgress,
   Flex,
   HStack,
   Image,
@@ -10,7 +11,6 @@ import {
 import Head from "next/head";
 import Navbar from "../components/navbar";
 import { authCheck } from "../utils/firebase/auth";
-import ErrorPage from "next/error";
 
 const LayoutHomePage = ({ pageTitle, children }) => {
   const [check, user] = authCheck();
@@ -44,7 +44,9 @@ const LayoutHomePage = ({ pageTitle, children }) => {
       </Box>
     </>
   ) : (
-    <ErrorPage statusCode={413} />
+    <Flex align="center" h="100vh" justify="center" w="full">
+      <CircularProgress color="black" />
+    </Flex>
   );
 };
 
