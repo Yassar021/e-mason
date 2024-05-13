@@ -19,6 +19,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Select,
   Stack,
   Tab,
   Table,
@@ -41,11 +42,13 @@ import { authCheck } from "../../utils/firebase/auth";
 import { useEffect, useRef, useState } from "react";
 import { httpsCallable } from "firebase/functions";
 import functions from "../../utils/firebase/function";
+import { uploadFile } from "../../utils/firebase/storage";
 import { useRouter } from "next/router";
 import moment from "moment/moment";
 
 const DashboardTukang = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen: isOpen2, onOpen: onOpen2, onClose: onClose2 } = useDisclosure();
 
   // set handle tolak dan terima
   const [loading, setLoading] = useState(false);
@@ -168,6 +171,75 @@ const DashboardTukang = () => {
       style: "currency",
       currency: "IDR",
     }).format(number);
+  };
+
+  const [field, setField] = useState({
+    luasBangunan: "",
+    typeBangunan: "",
+    harga: 0,
+    estimasi: "",
+    fotoBangunan: "",
+  });
+
+  const handleFile = async (e) => {
+    setLoading(true);
+    try {
+      const result = await uploadFile(e.target.files[0]);
+      setLoading(false);
+      setField((field) => ({
+        ...field,
+        fotoBangunan: `https://firebasestorage.googleapis.com/v0/b/emason-c2ba1.appspot.com/o/${result.metadata.name}?alt=media&token=bbec618f-de0c-40cb-ac94-91456bafe111`,
+      }));
+      toast({
+        title: "gambar berhasil diupload",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+        position: "top",
+      });
+    } catch (error) {
+      setLoading(false);
+      toast({
+        title: "gambar gagal diupload",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+        position: "top",
+      });
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const createProject = httpsCallable(functions, "createProject");
+      await createProject({
+        ...field,
+        userId: user?.data?.id,
+        createdAt: new Date().toISOString(),
+      });
+      setLoading(false);
+      toast({
+        title: "Berhasil tambah data",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+        position: "top",
+      });
+      onClose2();
+      setProjects([
+        ...projects,
+        {
+          ...field,
+          id: true,
+          userId: user?.data?.id,
+          createdAt: new Date().toISOString(),
+        },
+      ]);
+    } catch (error) {
+      setLoading(false);
+    }
   };
 
   return (
@@ -296,6 +368,128 @@ const DashboardTukang = () => {
         </ModalContent>
       </Modal>
 
+      {/* Portfolio */}
+      <Modal isOpen={isOpen2} onClose={onClose2}>
+          <ModalOverlay />
+          <ModalContent as={"form"} onSubmit={handleSubmit}>
+            <ModalHeader>Tambah Portofolio</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody pb={6}>
+              <FormControl>
+                <FormLabel>Jenis Pekerjaan</FormLabel>
+                <Input
+                  required
+                  placeholder="contoh: Pengerjaan Pengecatan 
+                  "
+                  onChange={(e) =>
+                    setField((field) => ({
+                      ...field,
+                      jenisKerjaan: e.target.value,
+                    }))
+                  }
+                />
+              </FormControl>
+              <FormControl mt={4}>
+                <FormLabel>Luas Bangunan</FormLabel>
+                <Input
+                  required
+                  onChange={(e) =>
+                    setField((field) => ({
+                      ...field,
+                      luasBangunan: e.target.value,
+                    }))
+                  }
+                  placeholder="masukkan luas bangunan"
+                />
+              </FormControl>
+              <FormControl mt={4}>
+                <FormLabel>Tipe Bangunan</FormLabel>
+                <Select
+                  placeholder="masukkan type bangunan"
+                  required
+                  onChange={(e) =>
+                    setField((field) => ({
+                      ...field,
+                      typeBangunan: e.target.value,
+                    }))
+                  }
+                >
+                  <option value="type 21/24">type 21/24</option>
+                  <option value="type 36">type 36 </option>
+                  <option value="type 45">type 45</option>
+                  <option value="type 54">type 54</option>
+                  <option value="type 60">type 60</option>
+                  <option value="type 70">type 70</option>
+                  <option value="type 90">type 90</option>
+                  <option value="type 120">type 120</option>
+                  <option value="type 140/200">type 140/200</option>
+                </Select>
+              </FormControl>
+              <FormControl mt={4}>
+                <FormLabel>Detail Bangunan</FormLabel>
+                <Input
+                  required
+                  placeholder="rumah tinggal, 
+                  ruko, perkantoran, dll"
+                  onChange={(e) =>
+                    setField((field) => ({
+                      ...field,
+                      detailBangunan: e.target.value,
+                    }))
+                  }
+                />
+              </FormControl>
+              <FormControl mt={4}>
+                <FormLabel>Masukkan kisaran harga</FormLabel>
+                <Input
+                  type="number"
+                  placeholder="masukkan kisaran harga"
+                  required
+                  onChange={(e) =>
+                    setField((field) => ({ ...field, harga: e.target.value }))
+                  }
+                />
+              </FormControl>
+              <FormControl mt={4}>
+                <FormLabel>Estimasi Pengerjaan (hari)</FormLabel>
+                <Input
+                  placeholder="masukkan estimasi waktu pengerjaan"
+                  required
+                  onChange={(e) =>
+                    setField((field) => ({
+                      ...field,
+                      estimasi: e.target.value,
+                    }))
+                  }
+                />
+              </FormControl>
+              <FormControl mt={4}>
+                <FormLabel>Foto Bangunan</FormLabel>
+                <Input
+                  accept="image/*"
+                  onChange={handleFile}
+                  pt="4px"
+                  placeholder="foto bangunan"
+                  type="file"
+                  required
+                />
+              </FormControl>
+            </ModalBody>
+
+            <ModalFooter>
+              <Button
+                isLoading={loading}
+                colorScheme="blue"
+                type="submit"
+                mr={3}
+              >
+                Simpan
+              </Button>
+              <Button onClick={onClose2}>Batal</Button>
+            </ModalFooter>
+          </ModalContent>
+      </Modal>
+
       <LayoutDashboardTukang pageTitle={"Dashboard Tukang"}>
         <TableContainer>
           <Table variant="striped" colorScheme="blue">
@@ -390,6 +584,7 @@ const DashboardTukang = () => {
                   </Table>
                 </TableContainer>
               </TabPanel>
+
               <TabPanel>
                 <TableContainer>
                   <Table variant="simple">
@@ -450,6 +645,7 @@ const DashboardTukang = () => {
                   </Table>
                 </TableContainer>
               </TabPanel>
+
               <TabPanel>
                 <TableContainer>
                   <Table variant="simple">
@@ -488,7 +684,7 @@ const DashboardTukang = () => {
                             {moment(order?.createdAt).format("DD-MMMM-YYYY")}
                           </Td>
                           <Td>
-                            <Button
+                            <Button mr='4px'
                               bgColor={"#3E38F5"}
                               color="#fff"
                               onClick={() => {
@@ -503,6 +699,12 @@ const DashboardTukang = () => {
                             >
                               Detail
                             </Button>
+                            <Button
+                              colorScheme={"blue"}
+                              onClick={onOpen2}
+                            >
+                              Tambah Portofolio
+                            </Button>
                           </Td>
                         </Tr>
                       ))}
@@ -510,6 +712,7 @@ const DashboardTukang = () => {
                   </Table>
                 </TableContainer>
               </TabPanel>
+              
               <TabPanel>
                 <TableContainer>
                   <Table variant="simple">

@@ -24,10 +24,10 @@ const AuthLogin = () => {
   const router = useRouter();
   const [check, user] = authCheck();
   if (check) {
-    if (user.data.type === "pengguna") {
+    if (user?.data?.type === "pengguna") {
       router.replace("/HomePage");
     }
-    if (user.data.type === "tukang") {
+    if (user?.data?.type === "tukang") {
       router.replace("/dashboardTukangPage");
     }
   }
