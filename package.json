@@ -15,9 +15,11 @@
     "firebase": "^9.9.0",
     "framer-motion": "^6.5.1",
     "moment": "^2.29.4",
-    "next": "12.3.1",
+    "next": "^14.2.3",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-rating": "^2.0.5",
+    "react-svg-star-rating": "^2.1.2"
   },
   "devDependencies": {
     "eslint": "8.25.0",

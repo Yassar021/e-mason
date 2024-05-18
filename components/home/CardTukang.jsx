@@ -4,12 +4,15 @@ import {
   Button,
   Flex,
   HStack,
+  Image,
+  Img,
   Link,
   Stack,
   Text,
 } from "@chakra-ui/react";
 
-const CardTukang = ({ name, image, id }) => {
+const CardTukang = ({ name, image, id, rating }) => {
+
   return (
     <Box
       display={"flex"}
@@ -38,6 +41,12 @@ const CardTukang = ({ name, image, id }) => {
         >
           {name}
         </Text>
+        <Box display='flex' gap='5px'>
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11.025 7.33329L8.99996 0.666626L6.97496 7.33329H0.666626L5.81663 11.0083L3.85829 17.3333L8.99996 13.425L14.15 17.3333L12.1916 11.0083L17.3333 7.33329H11.025Z" fill="#FFC804"/>
+          </svg>
+          {rating?.toFixed(1)}
+        </Box>
       </Flex>
       <Link href={`/detailTukang/${id}`} style={{ textDecoration: "none" }}>
         <Button

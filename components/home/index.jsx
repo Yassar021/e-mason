@@ -147,6 +147,7 @@ const Home = () => {
                   id={user?.uid}
                   name={user?.nama}
                   image={user?.avatar}
+                  rating={user?.rating || 0}
                 />
               ))}
             </SimpleGrid>

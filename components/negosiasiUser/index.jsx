@@ -16,6 +16,7 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
+  ModalOverlay,
   Stack,
   Tab,
   Table,
@@ -41,9 +42,12 @@ import { authCheck } from "../../utils/firebase/auth";
 import { useRouter } from "next/router";
 import { uploadFile } from "../../utils/firebase/storage";
 import moment from "moment/moment";
+import Rating from "react-rating";
+import StarRating from "react-svg-star-rating";
 
 const NegosiasiUser = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen: isOpen2, onOpen: onOpen2, onClose: onClose2 } = useDisclosure();
 
   // set handle tolak dan terima
   const [loading, setLoading] = useState(false);
@@ -189,6 +193,55 @@ const NegosiasiUser = () => {
     }
   };
 
+  const SVGIcon = (props) =>
+  <svg className={props.className} pointerEvents="none">
+    <use xlinkHref={props.href} />
+  </svg>;
+
+  const [innerRadius, setInnerRadius] = useState(25);
+  const [outerRadius, setOuterRadius] = useState(50);
+  const [rating2, setRating2] = useState(0);
+  const [tukang, setTukang] = useState({});
+
+  const handleTukang = (tukang) => {
+    setTukang(tukang);
+    onOpen2();
+  }
+
+  const handleOnClick2 = (rating2) => {
+    setRating2(rating2);
+  };
+
+  const handleRating = async () => {
+    setLoading(true);
+    try {
+      const updateUser = httpsCallable(functions, "updateUser");
+      await updateUser({
+        id: tukang?.id,
+        rating: tukang?.rating ? (tukang.rating+rating2)/2 : rating2,
+      });
+      setLoading(false);
+      toast({
+        title: "Rating berhasil diberikan",
+        description: "Kami berhasil memasukkan rating anda.",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+      onClose2();
+    } catch (error) {
+      toast({
+        title: "Rating gagal diberikan",
+        description: "Kami gagal memasukkan rating anda.",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+      setLoading(false);
+      onClose2();
+    }
+  }
+
   return (
     <>
       <Modal onClose={onClose} isOpen={isOpen} isCentered>
@@ -322,6 +375,38 @@ const NegosiasiUser = () => {
             </Button>
             <Button onClick={onClose} colorScheme="blue">
               Tutup
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      {/* Rating */}
+      <Modal size={'xl'} isOpen={isOpen2} onClose={onClose2}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Berikan Penilaian Anda</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            {/* <Rating
+              emptySymbol={<SVGIcon href="/public/icon-star-empty.svg" className="icon" />}
+              fullSymbol={<SVGIcon href="/public/icon-star-full.png" className="icon" />}
+            /> */}
+            <Box width={'100%'}>
+              <StarRating
+                display={'flex'}
+                flexDirection='row'
+                size={40}
+                innerRadius={innerRadius}
+                outerRadius={outerRadius}
+                handleOnClick={handleOnClick2}
+              />
+            </Box>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme='blue' mr={'4px'} onClick={handleRating} isLoading={loading}>Berikan Penilaian</Button>
+            <Button colorScheme='red' mr={3} onClick={onClose2}>
+              Close
             </Button>
           </ModalFooter>
         </ModalContent>
@@ -490,6 +575,7 @@ const NegosiasiUser = () => {
                             >
                               Detail
                             </Button>
+                            <Button ml={'4px'} colorScheme={'blue'} onClick={() => handleTukang(order?.tukang)}>Berikan Penilaian</Button>
                           </Td>
                         </Tr>
                       ))}
