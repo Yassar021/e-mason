@@ -70,7 +70,7 @@ const AuthLogin = () => {
               fontFamily={"Poppins"}
               pb="35px"
             >
-              Haloooo, Selamat Datang
+              Halo...Selamat Datang
             </Text>
           </VStack>
         </Center>

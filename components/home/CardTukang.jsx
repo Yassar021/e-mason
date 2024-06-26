@@ -15,6 +15,7 @@ const CardTukang = ({ name, image, id, rating }) => {
 
   return (
     <Box
+      mr="6px"
       display={"flex"}
       flexDirection={"column"}
       justifyContent={"center"}

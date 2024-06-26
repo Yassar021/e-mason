@@ -42,8 +42,8 @@ import { authCheck } from "../../utils/firebase/auth";
 import { useRouter } from "next/router";
 import { uploadFile } from "../../utils/firebase/storage";
 import moment from "moment/moment";
-import Rating from "react-rating";
 import StarRating from "react-svg-star-rating";
+import styles from "./rating.module.css"
 
 const NegosiasiUser = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -391,16 +391,13 @@ const NegosiasiUser = () => {
               emptySymbol={<SVGIcon href="/public/icon-star-empty.svg" className="icon" />}
               fullSymbol={<SVGIcon href="/public/icon-star-full.png" className="icon" />}
             /> */}
-            <Box width={'100%'}>
-              <StarRating
-                display={'flex'}
-                flexDirection='row'
+             <StarRating
+                containerClassName={styles.rating}
                 size={40}
                 innerRadius={innerRadius}
                 outerRadius={outerRadius}
                 handleOnClick={handleOnClick2}
-              />
-            </Box>
+              /> 
           </ModalBody>
 
           <ModalFooter>

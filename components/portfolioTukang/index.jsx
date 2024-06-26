@@ -359,6 +359,7 @@ const PortofolioTukang = () => {
             project={project}
             handleDelete={handleDelete}
             checkDelete={checkDelete}
+            setProjects={setProjects}
           />
         ))}
       </SimpleGrid>
